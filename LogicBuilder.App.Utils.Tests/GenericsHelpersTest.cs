@@ -330,14 +330,18 @@ namespace LogicBuilder.App.Utils.Tests
             var result = helper.ToList(enumerable);
 
             // Assert
+#pragma warning disable CA1861//used for testing
             Assert.Equal(new[] { "z", "a", "m", "b" }, result);
+#pragma warning disable CA1861
         }
         #endregion
 
         #region Helper Classes
         private class TestClass
         {
+#pragma warning disable S1144//used for testing
             public int Value { get; set; }
+#pragma warning restore S1144
         }
         #endregion
     }
