@@ -10,7 +10,11 @@ namespace LogicBuilder.App.Utils
             {
                 return new System.Net.Mail.MailAddress(email).Address == email;
             }
-            catch
+            catch (System.FormatException)
+            {
+                return false;
+            }
+            catch (System.ArgumentException)
             {
                 return false;
             }
