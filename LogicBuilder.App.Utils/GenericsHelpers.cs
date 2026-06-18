@@ -1,26 +1,69 @@
 ﻿using LogicBuilder.App.Utils.Interfaces;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace LogicBuilder.App.Utils
 {
-    public class GenericsHelpers<T> : IGenericsHelpers<T>
+    public class GenericsHelpers(ILogger<GenericsHelpers> logger) : IGenericsHelpers
     {
-        public void AddItem(ICollection<T> collection, T item) => collection.Add(item);
+        private readonly ILogger<GenericsHelpers> _logger = logger;
 
-        public bool Any(IEnumerable<T> enumerable) => enumerable.Any();
+        public void AddItem<T>(ICollection<T> collection, T item) => collection.Add(item);
 
-        public T CreateInstance() => Activator.CreateInstance<T>();
+        public bool Any<T>(IEnumerable<T> enumerable) => enumerable.Any();
 
-        public T GetItemAtIndex(IEnumerable<T> enumerable, int index) => enumerable.ElementAt(index);
+        public T CreateInstance<T>() => Activator.CreateInstance<T>();
 
-        public bool IsDefault(T? anyObject) => anyObject?.Equals(default(T)) == true;
+        public T GetItemAtIndex<T>(IEnumerable<T> enumerable, int index) => enumerable.ElementAt(index);
 
-        public T Single(IEnumerable<T> enumerable) => enumerable.Single();
+        public T? GetPropertyValue<T>(object item, string propertyName)
+        {
+            try
+            {
+                return GetPropertyValue<T>
+                (
+                    item.GetType().GetProperty
+                    (
+                        propertyName,
+                        BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance
+                    )
+                    .GetValue(item)
+                );
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex, "{ExceptionType} : {ExceptionMessage}", ex.GetType().Name, ex.Message);
+                throw new InvalidOperationException($"Failed to get property '{propertyName}' from type '{item?.GetType().Name}'.", ex);
+            }
+        }
 
-        public T SingleOrDefault(IEnumerable<T> enumerable) => enumerable.SingleOrDefault();
+        public bool IsDefault<T>(T? anyObject)
+        {
+            if (anyObject is null && default(T) is null)
+                return true;
 
-        public List<T> ToList(IEnumerable<T> enumerable) => [.. enumerable];
+            return anyObject?.Equals(default(T)) == true;
+        }
+
+        public T Single<T>(IEnumerable<T> enumerable) => enumerable.Single();
+
+        public T SingleOrDefault<T>(IEnumerable<T> enumerable) => enumerable.SingleOrDefault();
+
+        public List<T> ToList<T>(IEnumerable<T> enumerable) => [.. enumerable];
+
+        private static T? GetPropertyValue<T>(object valueObject)
+        {
+            if (valueObject == null)
+                return default;
+
+            Type valueObjectType = valueObject.GetType();
+            if (typeof(T) == valueObjectType)
+                return (T)valueObject;
+
+            return (T)Convert.ChangeType(valueObject, typeof(T));
+        }
     }
 }

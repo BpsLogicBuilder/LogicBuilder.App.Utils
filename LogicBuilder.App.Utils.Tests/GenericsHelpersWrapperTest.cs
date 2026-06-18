@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace LogicBuilder.App.Utils.Tests
 {
-    public class GenericsHelpersTest
+    public class GenericsHelpersWrapperTest
     {
         private readonly Mock<ILogger<GenericsHelpers>> _mockLogger;
 
-        public GenericsHelpersTest()
+        public GenericsHelpersWrapperTest()
         {
             _mockLogger = new Mock<ILogger<GenericsHelpers>>();
         }
@@ -24,7 +24,7 @@ namespace LogicBuilder.App.Utils.Tests
             var collection = new List<int> { 1, 2, 3 };
 
             // Act
-            helper.AddItem(collection, 4);
+            GenericsHelpersWrapper<int>.AddItem(helper, collection, 4);
 
             // Assert
             Assert.Equal(4, collection.Count);
@@ -39,7 +39,7 @@ namespace LogicBuilder.App.Utils.Tests
             var collection = new List<string> { "apple", "banana" };
 
             // Act
-            helper.AddItem(collection, "cherry");
+            GenericsHelpersWrapper<string>.AddItem(helper, collection, "cherry");
 
             // Assert
             Assert.Equal(3, collection.Count);
@@ -56,7 +56,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<int> { 1, 2, 3 };
 
             // Act
-            var result = helper.Any(enumerable);
+            var result = GenericsHelpersWrapper<int>.Any(helper, enumerable);
 
             // Assert
             Assert.True(result);
@@ -70,7 +70,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<int>();
 
             // Act
-            var result = helper.Any(enumerable);
+            var result = GenericsHelpersWrapper<int>.Any(helper, enumerable);
 
             // Assert
             Assert.False(result);
@@ -85,7 +85,7 @@ namespace LogicBuilder.App.Utils.Tests
             var helper = new GenericsHelpers(_mockLogger.Object);
 
             // Act
-            var result = helper.CreateInstance<TestClass>();
+            var result = GenericsHelpersWrapper<TestClass>.CreateInstance(helper);
 
             // Assert
             Assert.NotNull(result);
@@ -99,7 +99,7 @@ namespace LogicBuilder.App.Utils.Tests
             var helper = new GenericsHelpers(_mockLogger.Object);
 
             // Act
-            var result = helper.CreateInstance<int>();
+            var result = GenericsHelpersWrapper<int>.CreateInstance(helper);
 
             // Assert
             Assert.Equal(0, result);
@@ -115,7 +115,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<string> { "first", "second", "third" };
 
             // Act
-            var result = helper.GetItemAtIndex(enumerable, 1);
+            var result = GenericsHelpersWrapper<string>.GetItemAtIndex(helper, enumerable, 1);
 
             // Assert
             Assert.Equal("second", result);
@@ -129,7 +129,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<int> { 1, 2, 3 };
 
             // Act & Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => helper.GetItemAtIndex(enumerable, 5));
+            Assert.Throws<ArgumentOutOfRangeException>(() => GenericsHelpersWrapper<int>.GetItemAtIndex(helper, enumerable, 5));
         }
 
         [Fact]
@@ -140,7 +140,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<int> { 10, 20, 30 };
 
             // Act
-            var result = helper.GetItemAtIndex(enumerable, 0);
+            var result = GenericsHelpersWrapper<int>.GetItemAtIndex(helper, enumerable, 0);
 
             // Assert
             Assert.Equal(10, result);
@@ -155,7 +155,7 @@ namespace LogicBuilder.App.Utils.Tests
             var helper = new GenericsHelpers(_mockLogger.Object);
 
             // Act
-            var result = helper.IsDefault(0);
+            var result = GenericsHelpersWrapper<int>.IsDefault(helper, 0);
 
             // Assert
             Assert.True(result);
@@ -168,7 +168,7 @@ namespace LogicBuilder.App.Utils.Tests
             var helper = new GenericsHelpers(_mockLogger.Object);
 
             // Act
-            var result = helper.IsDefault(5);
+            var result = GenericsHelpersWrapper<int>.IsDefault(helper, 5);
 
             // Assert
             Assert.False(result);
@@ -181,7 +181,7 @@ namespace LogicBuilder.App.Utils.Tests
             var helper = new GenericsHelpers(_mockLogger.Object);
 
             // Act
-            var result = helper.IsDefault<string>(null);
+            var result = GenericsHelpersWrapper<string>.IsDefault(helper, null);
 
             // Assert
             Assert.True(result);
@@ -194,7 +194,7 @@ namespace LogicBuilder.App.Utils.Tests
             var helper = new GenericsHelpers(_mockLogger.Object);
 
             // Act
-            var result = helper.IsDefault("test");
+            var result = GenericsHelpersWrapper<string>.IsDefault(helper, "test");
 
             // Assert
             Assert.False(result);
@@ -210,7 +210,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<int> { 42 };
 
             // Act
-            var result = helper.Single(enumerable);
+            var result = GenericsHelpersWrapper<int>.Single(helper, enumerable);
 
             // Assert
             Assert.Equal(42, result);
@@ -224,7 +224,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<int>();
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => helper.Single(enumerable));
+            Assert.Throws<InvalidOperationException>(() => GenericsHelpersWrapper<int>.Single(helper, enumerable));
         }
 
         [Fact]
@@ -235,7 +235,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<int> { 1, 2, 3 };
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => helper.Single(enumerable));
+            Assert.Throws<InvalidOperationException>(() => GenericsHelpersWrapper<int>.Single(helper, enumerable));
         }
         #endregion
 
@@ -248,7 +248,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<string> { "only" };
 
             // Act
-            var result = helper.SingleOrDefault(enumerable);
+            var result = GenericsHelpersWrapper<string>.SingleOrDefault(helper, enumerable);
 
             // Assert
             Assert.Equal("only", result);
@@ -262,7 +262,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<int>();
 
             // Act
-            var result = helper.SingleOrDefault(enumerable);
+            var result = GenericsHelpersWrapper<int>.SingleOrDefault(helper, enumerable);
 
             // Assert
             Assert.Equal(0, result);
@@ -276,7 +276,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<string>();
 
             // Act
-            var result = helper.SingleOrDefault(enumerable);
+            var result = GenericsHelpersWrapper<string>.SingleOrDefault(helper, enumerable);
 
             // Assert
             Assert.Null(result);
@@ -290,7 +290,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new List<int> { 1, 2 };
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => helper.SingleOrDefault(enumerable));
+            Assert.Throws<InvalidOperationException>(() => GenericsHelpersWrapper<int>.SingleOrDefault(helper, enumerable));
         }
         #endregion
 
@@ -303,7 +303,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new[] { 1, 2, 3, 4, 5 };
 
             // Act
-            var result = helper.ToList(enumerable);
+            var result = GenericsHelpersWrapper<int>.ToList(helper, enumerable);
 
             // Assert
             Assert.NotNull(result);
@@ -320,7 +320,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = Enumerable.Empty<string>();
 
             // Act
-            var result = helper.ToList(enumerable);
+            var result = GenericsHelpersWrapper<string>.ToList(helper, enumerable);
 
             // Assert
             Assert.NotNull(result);
@@ -335,7 +335,7 @@ namespace LogicBuilder.App.Utils.Tests
             var enumerable = new[] { "z", "a", "m", "b" };
 
             // Act
-            var result = helper.ToList(enumerable);
+            var result = GenericsHelpersWrapper<string>.ToList(helper, enumerable);
 
             // Assert
 #pragma warning disable CA1861
@@ -353,7 +353,7 @@ namespace LogicBuilder.App.Utils.Tests
             var testObj = new PropertyTestClass { StringProperty = "TestValue" };
 
             // Act
-            var result = helper.GetPropertyValue<string>(testObj, "StringProperty");
+            var result = GenericsHelpersWrapper<string>.GetPropertyValue(helper, testObj, "StringProperty");
 
             // Assert
             Assert.Equal("TestValue", result);
@@ -367,7 +367,7 @@ namespace LogicBuilder.App.Utils.Tests
             var testObj = new PropertyTestClass { StringProperty = "TestValue" };
 
             // Act
-            var result = helper.GetPropertyValue<string>(testObj, "stringproperty");
+            var result = GenericsHelpersWrapper<string>.GetPropertyValue(helper, testObj, "stringproperty");
 
             // Assert
             Assert.Equal("TestValue", result);
@@ -381,7 +381,7 @@ namespace LogicBuilder.App.Utils.Tests
             var testObj = new PropertyTestClass { IntProperty = 42 };
 
             // Act
-            var result = helper.GetPropertyValue<int>(testObj, "IntProperty");
+            var result = GenericsHelpersWrapper<int>.GetPropertyValue(helper, testObj, "IntProperty");
 
             // Assert
             Assert.Equal(42, result);
@@ -395,7 +395,7 @@ namespace LogicBuilder.App.Utils.Tests
             var testObj = new PropertyTestClass { BoolProperty = true };
 
             // Act
-            var result = helper.GetPropertyValue<bool>(testObj, "BoolProperty");
+            var result = GenericsHelpersWrapper<bool>.GetPropertyValue(helper, testObj, "BoolProperty");
 
             // Assert
             Assert.True(result);
@@ -409,7 +409,7 @@ namespace LogicBuilder.App.Utils.Tests
             var testObj = new PropertyTestClass { NullableProperty = null };
 
             // Act
-            var result = helper.GetPropertyValue<string>(testObj, "NullableProperty");
+            var result = GenericsHelpersWrapper<string>.GetPropertyValue(helper, testObj, "NullableProperty");
 
             // Assert
             Assert.Null(result);
@@ -423,7 +423,7 @@ namespace LogicBuilder.App.Utils.Tests
             var testObj = new PropertyTestClass { IntProperty = 123 };
 
             // Act
-            var result = helper.GetPropertyValue<string>(testObj, "IntProperty");
+            var result = GenericsHelpersWrapper<string>.GetPropertyValue(helper, testObj, "IntProperty");
 
             // Assert
             Assert.Equal("123", result);
@@ -437,7 +437,7 @@ namespace LogicBuilder.App.Utils.Tests
             var testObj = new PropertyTestClass { StringProperty = "456" };
 
             // Act
-            var result = helper.GetPropertyValue<int>(testObj, "StringProperty");
+            var result = GenericsHelpersWrapper<int>.GetPropertyValue(helper, testObj, "StringProperty");
 
             // Assert
             Assert.Equal(456, result);
@@ -451,8 +451,8 @@ namespace LogicBuilder.App.Utils.Tests
             var testObj = new PropertyTestClass();
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => 
-                helper.GetPropertyValue<string>(testObj, "NonExistentProperty"));
+            Assert.Throws<InvalidOperationException>(() =>
+                GenericsHelpersWrapper<string>.GetPropertyValue(helper, testObj, "NonExistentProperty"));
         }
 
         [Fact]
@@ -462,8 +462,8 @@ namespace LogicBuilder.App.Utils.Tests
             var helper = new GenericsHelpers(_mockLogger.Object);
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => 
-                helper.GetPropertyValue<string>(null!, "AnyProperty"));
+            Assert.Throws<InvalidOperationException>(() =>
+                GenericsHelpersWrapper<string>.GetPropertyValue(helper, null!, "AnyProperty"));
         }
 
         [Fact]
@@ -474,8 +474,8 @@ namespace LogicBuilder.App.Utils.Tests
             var testObj = new PropertyTestClass { StringProperty = "NotANumber" };
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => 
-                helper.GetPropertyValue<int>(testObj, "StringProperty"));
+            Assert.Throws<InvalidOperationException>(() =>
+                GenericsHelpersWrapper<int>.GetPropertyValue(helper, testObj, "StringProperty"));
         }
 
         [Fact]
@@ -486,7 +486,7 @@ namespace LogicBuilder.App.Utils.Tests
             var testObj = new PropertyTestClass { DoubleProperty = 3.14 };
 
             // Act
-            var result = helper.GetPropertyValue<double>(testObj, "DoubleProperty");
+            var result = GenericsHelpersWrapper<double>.GetPropertyValue(helper, testObj, "DoubleProperty");
 
             // Assert
             Assert.Equal(3.14, result);
@@ -501,7 +501,7 @@ namespace LogicBuilder.App.Utils.Tests
             var testObj = new PropertyTestClass { DateTimeProperty = expectedDate };
 
             // Act
-            var result = helper.GetPropertyValue<DateTime>(testObj, "DateTimeProperty");
+            var result = GenericsHelpersWrapper<DateTime>.GetPropertyValue(helper, testObj, "DateTimeProperty");
 
             // Assert
             Assert.Equal(expectedDate, result);
