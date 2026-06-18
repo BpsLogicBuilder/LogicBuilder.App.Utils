@@ -1,11 +1,10 @@
-﻿using LogicBuilder.App.Utils.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace LogicBuilder.App.Utils.Tests
 {
     public class ObjectHelperTest
     {
-        private readonly IObjectHelper _objectHelper;
+        private readonly ObjectHelper _objectHelper;
 
         public ObjectHelperTest()
         {
