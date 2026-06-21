@@ -40,6 +40,12 @@ namespace LogicBuilder.App.Utils
             }
         }
 
+        public TValue GetValue<TKey, TValue>(IDictionary<TKey, TValue> dictionary, TKey key)
+        {
+            dictionary.TryGetValue(key, out TValue value);
+            return value;
+        }
+
         public bool IsDefault<T>(T? anyObject)
         {
             if (anyObject is null && default(T) is null)

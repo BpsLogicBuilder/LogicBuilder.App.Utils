@@ -1,3 +1,4 @@
+* 2026-06-21 - AB#153: Add GetValue method to Generic Helpers.
 * 2026-06-18 - AB#160: Fix generic catch clause.
 * 2026-06-18 - AB#160: Changing declared type per Sonar recommendation.
 * 2026-06-18 - AB#160: Adding remaining helper classes and CI/CD workflows.
