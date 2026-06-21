@@ -508,6 +508,260 @@ namespace LogicBuilder.App.Utils.Tests
         }
         #endregion
 
+        #region GetValue Tests
+        [Fact]
+        public void GetValue_ReturnsValueWhenKeyExists()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<string, int>
+            {
+                { "one", 1 },
+                { "two", 2 },
+                { "three", 3 }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, "two");
+
+            // Assert
+            Assert.Equal(2, result);
+        }
+
+        [Fact]
+        public void GetValue_ReturnsDefaultValueWhenKeyDoesNotExist()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<string, int>
+            {
+                { "one", 1 },
+                { "two", 2 }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, "three");
+
+            // Assert
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        public void GetValue_ReturnsNullWhenKeyDoesNotExistForReferenceType()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "one" },
+                { 2, "two" }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, 3);
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void GetValue_ReturnsStringValueWhenKeyExists()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "apple" },
+                { 2, "banana" },
+                { 3, "cherry" }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, 2);
+
+            // Assert
+            Assert.Equal("banana", result);
+        }
+
+        [Fact]
+        public void GetValue_WorksWithComplexObjectValues()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var obj1 = new TestClass { Value = 10 };
+            var obj2 = new TestClass { Value = 20 };
+            var dictionary = new Dictionary<string, TestClass>
+            {
+                { "first", obj1 },
+                { "second", obj2 }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, "first");
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(10, result.Value);
+            Assert.Same(obj1, result);
+        }
+
+        [Fact]
+        public void GetValue_ReturnsNullForComplexObjectWhenKeyDoesNotExist()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<string, TestClass>
+            {
+                { "first", new TestClass { Value = 10 } }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, "second");
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void GetValue_WorksWithBoolValues()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<string, bool>
+            {
+                { "isActive", true },
+                { "isDeleted", false }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, "isActive");
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void GetValue_ReturnsFalseForBoolWhenKeyDoesNotExist()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<string, bool>
+            {
+                { "isActive", true }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, "isDeleted");
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void GetValue_WorksWithNullableValueTypes()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<string, int?>
+            {
+                { "one", 1 },
+                { "two", 2 },
+                { "three", null }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, "three");
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void GetValue_ReturnsNullForNullableWhenKeyDoesNotExist()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<string, int?>
+            {
+                { "one", 1 }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, "two");
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void GetValue_WorksWithDoubleValues()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<string, double>
+            {
+                { "pi", 3.14159 },
+                { "e", 2.71828 }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, "pi");
+
+            // Assert
+            Assert.Equal(3.14159, result);
+        }
+
+        [Fact]
+        public void GetValue_WorksWithEmptyDictionary()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<string, int>();
+
+            // Act
+            var result = helper.GetValue(dictionary, "any");
+
+            // Assert
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        public void GetValue_CanReturnNullValueFromDictionary()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<string, string>
+            {
+                { "key1", "value1" },
+                { "key2", null! }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, "key2");
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void GetValue_WorksWithIntegerKeys()
+        {
+            // Arrange
+            var helper = new GenericsHelpers(_mockLogger.Object);
+            var dictionary = new Dictionary<int, string>
+            {
+                { 100, "hundred" },
+                { 200, "two hundred" }
+            };
+
+            // Act
+            var result = helper.GetValue(dictionary, 100);
+
+            // Assert
+            Assert.Equal("hundred", result);
+        }
+        #endregion
+
         #region Helper Classes
         private class TestClass
         {

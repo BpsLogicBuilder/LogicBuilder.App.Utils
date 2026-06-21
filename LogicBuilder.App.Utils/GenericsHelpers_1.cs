@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LogicBuilder.App.Utils
 {
-    public static class GenericsHelpersWrapper<T>
+    public static class GenericsHelpers<T>
     {
         [AlsoKnownAs("ToList")]
         [FunctionGroup(FunctionGroup.Standard)]
@@ -39,5 +39,12 @@ namespace LogicBuilder.App.Utils
         [AlsoKnownAs("Any")]
         [FunctionGroup(FunctionGroup.Standard)]
         public static bool Any(IGenericsHelpers genericsHelpers, IEnumerable<T> enumerable) => genericsHelpers.Any(enumerable);
+    }
+
+    public static class GenericsHelpers<K, V>
+    {
+        [AlsoKnownAs("GetValue")]
+        [FunctionGroup(FunctionGroup.Standard)]
+        public static V GetValue(IGenericsHelpers genericsHelpers, IDictionary<K, V> dictionary, K key) => genericsHelpers.GetValue(dictionary, key);
     }
 }
