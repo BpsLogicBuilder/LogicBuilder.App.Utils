@@ -11,7 +11,7 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<Description>Creates CRUD related LINQ queries from data.</Description>
+		<Description>This library maintains reusable functions which the logic builder workflow depends on.</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageReleaseNotes>Adding the OwnedEntityAttribute for expansion support. Making constant operator arguments nullable.</PackageReleaseNotes>
 		<PackageTags>linq expressions</PackageTags>

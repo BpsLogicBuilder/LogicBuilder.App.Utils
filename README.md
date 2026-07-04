@@ -7,7 +7,7 @@
 
 ## Overview
 
-LogicBuilder.App.Utils is a utility library that provides essential classes and helper methods used by business applications to perform routine operations. This library focuses on creating CRUD-related LINQ queries dynamically from data, enabling flexible and efficient data access patterns.
+LogicBuilder.App.Utils is a utility library that provides essential classes and helper methods used by business applications to perform routine operations. It maintains reusable functions which the logic builder workflow depends on.
 
 ## Purpose
 

@@ -1,5 +1,4 @@
-﻿using LogicBuilder.Attributes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace LogicBuilder.App.Utils.Interfaces
 {
