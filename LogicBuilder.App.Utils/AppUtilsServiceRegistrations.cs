@@ -1,5 +1,7 @@
 ﻿using LogicBuilder.App.Utils;
 using LogicBuilder.App.Utils.Interfaces;
+using LogicBuilder.App.Utils.Web;
+using LogicBuilder.App.Utils.Web.Interfaces;
 
 #pragma warning disable IDE0130 //Microsoft recommended namespace for service registrations
 namespace Microsoft.Extensions.DependencyInjection
@@ -12,6 +14,8 @@ namespace Microsoft.Extensions.DependencyInjection
             return services
                 .AddTransient<IDictionaryHelper, DictionaryHelper>()
                 .AddTransient<IGenericsHelpers, GenericsHelpers>()
+                .AddTransient<IHttpClientHelper, HttpClientHelper>()
+                .AddHttpClient()
                 .AddTransient<IMappingOperations, MappingOperations>()
                 .AddTransient<IObjectHelper, ObjectHelper>()
                 .AddTransient<IStringHelper, StringHelper>()

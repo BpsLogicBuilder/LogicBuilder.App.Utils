@@ -1,3 +1,4 @@
+* 2026-07-11 - AB#189: Consolidating LogicBuilder.App.Web.Utils with this library.
 * 2026-07-11 - AB#189: Moving all services from LogicBuilder.App.Common.Utils to this library.
 * 2026-07-11 - AB#189: Renaming static wrapper classes for consistency.
 * 2026-07-04 - AB#173: Creating static wrapper classes for helpers.

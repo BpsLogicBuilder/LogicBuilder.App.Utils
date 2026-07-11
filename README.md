@@ -33,6 +33,13 @@ Install via NuGet Package Manager:
 Or via Package Manager Console:
 - Install-Package LogicBuilder.App.Utils
 
+### Basic Setup
+
+First, use the `AddAppUtilsServices()` to register dependencies:
+```c#
+services.AddAppUtilsServices(); 
+```
+
 ## Dependencies
 
 - **AutoMapper**
@@ -51,6 +58,17 @@ This library is designed for business applications that need to:
 - Generate CRUD operations without writing repetitive boilerplate code
 - Build complex filtering, sorting, and projection expressions
 - Maintain consistent data access patterns across application layers
+
+### HttpClientHelper
+
+A simplified wrapper around `HttpClient` that provides strongly-typed HTTP operations with built-in JSON serialization/deserialization.
+
+**Key Benefits:**
+- Integrates with `IHttpClientFactory` for proper HttpClient lifecycle management
+- Automatic JSON serialization and deserialization
+- Strongly-typed request and response handling
+- Supports custom `JsonSerializerOptions` for flexible JSON configuration
+- Throws `InvalidOperationException` on deserialization failures for robust error handling
 
 ## Related Projects
 
