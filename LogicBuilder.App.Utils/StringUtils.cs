@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LogicBuilder.App.Utils
 {
-    public static class StringUtilities
+    public static class StringUtils
     {
         public static bool IsValidEmail(IStringHelper stringHelper, string email) 
             => stringHelper.IsValidEmail(email);

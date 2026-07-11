@@ -4,7 +4,7 @@ using System;
 
 namespace LogicBuilder.App.Utils
 {
-    public static class ServicesHelper<TService> where TService : notnull
+    public static class ServiceProviderUtils<TService> where TService : notnull
     {
         [AlsoKnownAs("Get Required Service")]
         public static TService GetRequiredService(IServiceProvider serviceProvider)

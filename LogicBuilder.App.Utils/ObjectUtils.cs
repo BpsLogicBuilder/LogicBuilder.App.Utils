@@ -2,7 +2,7 @@
 
 namespace LogicBuilder.App.Utils
 {
-    public static class ObjectUtilities
+    public static class ObjectUtils
     {
         public static object? Null => null;
 

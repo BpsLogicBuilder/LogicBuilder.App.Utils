@@ -1,10 +1,10 @@
 ﻿namespace LogicBuilder.App.Utils.Tests
 {
-    public class StringUtilitiesTest
+    public class StringUtilsTest
     {
         private readonly StringHelper _stringHelper;
 
-        public StringUtilitiesTest()
+        public StringUtilsTest()
         {
             _stringHelper = new StringHelper();
         }
@@ -18,7 +18,7 @@
             string email = "test@example.com";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.True(result);
@@ -31,7 +31,7 @@
             string email = "user123@example.com";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.True(result);
@@ -44,7 +44,7 @@
             string email = "user.name@example.com";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.True(result);
@@ -57,7 +57,7 @@
             string email = "user+tag@example.com";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.True(result);
@@ -70,7 +70,7 @@
             string email = "test@mail.example.com";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.True(result);
@@ -83,7 +83,7 @@
             string email = "testexample.com";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.False(result);
@@ -96,7 +96,7 @@
             string email = "test@@example.com";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.False(result);
@@ -109,7 +109,7 @@
             string email = "test@";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.False(result);
@@ -122,7 +122,7 @@
             string email = "@example.com";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.False(result);
@@ -135,7 +135,7 @@
             string email = "";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.False(result);
@@ -148,7 +148,7 @@
             string email = null!;
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.False(result);
@@ -161,7 +161,7 @@
             string email = "   ";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.False(result);
@@ -174,7 +174,7 @@
             string email = "test @example.com";
 
             // Act
-            bool result = StringUtilities.IsValidEmail(_stringHelper, email);
+            bool result = StringUtils.IsValidEmail(_stringHelper, email);
 
             // Assert
             Assert.False(result);
@@ -191,7 +191,7 @@
             string value = null!;
 
             // Act
-            bool result = StringUtilities.StringIsNullOrEmpty(_stringHelper, value);
+            bool result = StringUtils.StringIsNullOrEmpty(_stringHelper, value);
 
             // Assert
             Assert.True(result);
@@ -204,7 +204,7 @@
             string value = "";
 
             // Act
-            bool result = StringUtilities.StringIsNullOrEmpty(_stringHelper, value);
+            bool result = StringUtils.StringIsNullOrEmpty(_stringHelper, value);
 
             // Assert
             Assert.True(result);
@@ -217,7 +217,7 @@
             string value = string.Empty;
 
             // Act
-            bool result = StringUtilities.StringIsNullOrEmpty(_stringHelper, value);
+            bool result = StringUtils.StringIsNullOrEmpty(_stringHelper, value);
 
             // Assert
             Assert.True(result);
@@ -230,7 +230,7 @@
             string value = "   ";
 
             // Act
-            bool result = StringUtilities.StringIsNullOrEmpty(_stringHelper, value);
+            bool result = StringUtils.StringIsNullOrEmpty(_stringHelper, value);
 
             // Assert
             Assert.False(result);
@@ -243,7 +243,7 @@
             string value = "test";
 
             // Act
-            bool result = StringUtilities.StringIsNullOrEmpty(_stringHelper, value);
+            bool result = StringUtils.StringIsNullOrEmpty(_stringHelper, value);
 
             // Assert
             Assert.False(result);
@@ -256,7 +256,7 @@
             string value = "a";
 
             // Act
-            bool result = StringUtilities.StringIsNullOrEmpty(_stringHelper, value);
+            bool result = StringUtils.StringIsNullOrEmpty(_stringHelper, value);
 
             // Assert
             Assert.False(result);

@@ -1,15 +1,13 @@
 ﻿using LogicBuilder.App.Utils.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 namespace LogicBuilder.App.Utils.Tests
 {
-    public class ServicesHelperTest
+    public class ServiceProviderUtilsTest
     {
-        static ServicesHelperTest()
+        static ServiceProviderUtilsTest()
         {
             RegisterServiceProvider();
         }
@@ -20,10 +18,10 @@ namespace LogicBuilder.App.Utils.Tests
         public void GetRequiredServiceCanInitializeAppUtilsServices()
         {
             //act
-            IGenericsHelpers genericsHelpers = ServicesHelper<IGenericsHelpers>.GetRequiredService(serviceProvider);
-            IObjectHelper objectHelper = ServicesHelper<IObjectHelper>.GetRequiredService(serviceProvider);
-            IStringHelper stringHelper = ServicesHelper<IStringHelper>.GetRequiredService(serviceProvider);
-            ITypeHelper typeHelper = ServicesHelper<ITypeHelper>.GetRequiredService(serviceProvider);
+            IGenericsHelpers genericsHelpers = ServiceProviderUtils<IGenericsHelpers>.GetRequiredService(serviceProvider);
+            IObjectHelper objectHelper = ServiceProviderUtils<IObjectHelper>.GetRequiredService(serviceProvider);
+            IStringHelper stringHelper = ServiceProviderUtils<IStringHelper>.GetRequiredService(serviceProvider);
+            ITypeHelper typeHelper = ServiceProviderUtils<ITypeHelper>.GetRequiredService(serviceProvider);
 
             //assert
             Assert.NotNull(genericsHelpers);

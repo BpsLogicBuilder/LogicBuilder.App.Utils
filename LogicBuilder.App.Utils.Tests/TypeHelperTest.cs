@@ -2,7 +2,6 @@
 using Moq;
 using System;
 using System.Globalization;
-using Xunit;
 
 namespace LogicBuilder.App.Utils.Tests
 {
