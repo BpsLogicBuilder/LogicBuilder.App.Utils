@@ -10,7 +10,9 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddAppUtilsServices(this IServiceCollection services)
         {
             return services
+                .AddTransient<IDictionaryHelper, DictionaryHelper>()
                 .AddTransient<IGenericsHelpers, GenericsHelpers>()
+                .AddTransient<IMappingOperations, MappingOperations>()
                 .AddTransient<IObjectHelper, ObjectHelper>()
                 .AddTransient<IStringHelper, StringHelper>()
                 .AddTransient<ITypeHelper, TypeHelper>();

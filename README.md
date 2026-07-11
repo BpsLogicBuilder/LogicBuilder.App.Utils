@@ -7,20 +7,23 @@
 
 ## Overview
 
-LogicBuilder.App.Utils is a utility library that provides essential classes and helper methods used by business applications to perform routine operations. It maintains reusable functions which the logic builder workflow depends on.
+LogicBuilder.App.Utils is part of the [Logic Builder](https://github.com/BpsLogicBuilder/LogicBuilder) ecosystem and is a utility library that provides essential classes and helper methods used by business applications to perform routine operations. It maintains reusable functions which the logic builder workflow depends on.
 
 ## Purpose
 
 This library simplifies common business application tasks by providing:
 - **Reusable Components**: Common functionality needed across business applications
+- **Parameter-to-Operator Conversion**: Transforms UI-generated parameters from `LogicBuilder.Forms.Parameters` into operator classes
+- **LINQ Expression Generation**: Leverages `LogicBuilder.Expressions.Utils` to build type-safe LINQ expressions
+- **Object Mapping**: Uses AutoMapper for efficient object-to-object mapping during the transformation process
 
 ## Features
 
 - ✅ Targets .NET Standard 2.0 for broad compatibility
-- ✅ Strong-named assembly for enterprise environments
-- ✅ Includes source link support for debugging
+- ✅ Converts Logic Builder form parameters into executable operators
+- ✅ Generates strongly-typed LINQ expressions for querying and filtering
 - ✅ Built-in support for owned entity expansion via `OwnedEntityAttribute`
-- ✅ Nullable reference types enabled for improved type safety
+- ✅ Integrates seamlessly with the Logic Builder ecosystem
 
 ## Installation
 
@@ -32,10 +35,13 @@ Or via Package Manager Console:
 
 ## Dependencies
 
-- **LogicBuilder.Attributes** (v2.0.6)
-- **Microsoft.Extensions.Logging.Abstractions** (v10.0.9)
-- **System.Reflection.Emit** (v4.7.0)
-- **System.Text.Json** (v10.0.9)
+- **AutoMapper**
+- **LogicBuilder.Attributes**
+- **LogicBuilder.Expressions.Utils**
+- **LogicBuilder.Forms.Parameters**
+- **Microsoft.Extensions.Logging.Abstractions**
+- **System.Reflection.Emit**
+- **System.Text.Json**
 
 ## Use Cases
 
