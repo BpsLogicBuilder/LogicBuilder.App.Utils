@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace LogicBuilder.App.Utils.Tests
 {
-    public class ObjectUtilitiesTest
+    public class ObjectUtilsTest
     {
         private readonly ObjectHelper _objectHelper;
 
-        public ObjectUtilitiesTest()
+        public ObjectUtilsTest()
         {
             _objectHelper = new ObjectHelper();
         }
@@ -18,7 +16,7 @@ namespace LogicBuilder.App.Utils.Tests
         public void Null_ReturnsNull()
         {
             // Act
-            var result = ObjectUtilities.Null;
+            var result = ObjectUtils.Null;
 
             // Assert
             Assert.Null(result);
@@ -33,7 +31,7 @@ namespace LogicBuilder.App.Utils.Tests
             object? nullObject = null;
 
             // Act
-            var result = ObjectUtilities.IsNull(_objectHelper, nullObject);
+            var result = ObjectUtils.IsNull(_objectHelper, nullObject);
 
             // Assert
             Assert.True(result);
@@ -46,7 +44,7 @@ namespace LogicBuilder.App.Utils.Tests
             var nonNullObject = new object();
 
             // Act
-            var result = ObjectUtilities.IsNull(_objectHelper, nonNullObject);
+            var result = ObjectUtils.IsNull(_objectHelper, nonNullObject);
 
             // Assert
             Assert.False(result);
@@ -59,7 +57,7 @@ namespace LogicBuilder.App.Utils.Tests
             string nonNullString = "test";
 
             // Act
-            var result = ObjectUtilities.IsNull(_objectHelper, nonNullString);
+            var result = ObjectUtils.IsNull(_objectHelper, nonNullString);
 
             // Assert
             Assert.False(result);
@@ -72,7 +70,7 @@ namespace LogicBuilder.App.Utils.Tests
             string emptyString = string.Empty;
 
             // Act
-            var result = ObjectUtilities.IsNull(_objectHelper, emptyString);
+            var result = ObjectUtils.IsNull(_objectHelper, emptyString);
 
             // Assert
             Assert.False(result);
@@ -85,7 +83,7 @@ namespace LogicBuilder.App.Utils.Tests
             int number = 42;
 
             // Act
-            var result = ObjectUtilities.IsNull(_objectHelper, number);
+            var result = ObjectUtils.IsNull(_objectHelper, number);
 
             // Assert
             Assert.False(result);
@@ -98,7 +96,7 @@ namespace LogicBuilder.App.Utils.Tests
             int zero = 0;
 
             // Act
-            var result = ObjectUtilities.IsNull(_objectHelper, zero);
+            var result = ObjectUtils.IsNull(_objectHelper, zero);
 
             // Assert
             Assert.False(result);
@@ -111,7 +109,7 @@ namespace LogicBuilder.App.Utils.Tests
             var list = new List<int>();
 
             // Act
-            var result = ObjectUtilities.IsNull(_objectHelper, list);
+            var result = ObjectUtils.IsNull(_objectHelper, list);
 
             // Assert
             Assert.False(result);
@@ -124,7 +122,7 @@ namespace LogicBuilder.App.Utils.Tests
             int? nullableInt = 5;
 
             // Act
-            var result = ObjectUtilities.IsNull(_objectHelper, nullableInt);
+            var result = ObjectUtils.IsNull(_objectHelper, nullableInt);
 
             // Assert
             Assert.False(result);
@@ -137,7 +135,7 @@ namespace LogicBuilder.App.Utils.Tests
             int? nullableInt = null;
 
             // Act
-            var result = ObjectUtilities.IsNull(_objectHelper, nullableInt);
+            var result = ObjectUtils.IsNull(_objectHelper, nullableInt);
 
             // Assert
             Assert.True(result);

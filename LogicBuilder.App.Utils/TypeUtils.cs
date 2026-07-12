@@ -4,7 +4,7 @@ using System;
 
 namespace LogicBuilder.App.Utils
 {
-    public static class TypeUtilities
+    public static class TypeUtils
     {
         public static object GetPropertyValue(ITypeHelper typeHelper, object item, string propertyName)
             => typeHelper.GetPropertyValue(item, propertyName);

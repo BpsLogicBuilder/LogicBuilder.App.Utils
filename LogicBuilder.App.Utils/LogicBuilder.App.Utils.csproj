@@ -36,7 +36,11 @@
 	</ItemGroup>
 
   <ItemGroup>
+		<PackageReference Include="AutoMapper" Version="16.2.0" />
     <PackageReference Include="LogicBuilder.Attributes" Version="2.0.6" />
+		<PackageReference Include="LogicBuilder.Expressions.Utils" Version="8.0.3" />
+		<PackageReference Include="LogicBuilder.Forms.Parameters" Version="2.1.1" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.9" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.9" />
 		<PackageReference Include="MinVer" Version="7.0.0">
 			<PrivateAssets>all</PrivateAssets>

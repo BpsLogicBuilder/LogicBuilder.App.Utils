@@ -1,18 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace LogicBuilder.App.Utils.Tests
 {
-    public class TypeUtilitiesTest
+    public class TypeUtilsTest
     {
         private readonly Mock<ILogger<TypeHelper>> _mockLogger;
         private readonly TypeHelper _typeHelper;
 
-        public TypeUtilitiesTest()
+        public TypeUtilsTest()
         {
             _mockLogger = new Mock<ILogger<TypeHelper>>();
             _typeHelper = new TypeHelper(_mockLogger.Object);
@@ -27,7 +25,7 @@ namespace LogicBuilder.App.Utils.Tests
             var testObject = new TestClass { Name = "Test", Age = 25 };
 
             // Act
-            var result = TypeUtilities.GetPropertyValue(_typeHelper, testObject, "Name");
+            var result = TypeUtils.GetPropertyValue(_typeHelper, testObject, "Name");
 
             // Assert
             Assert.Equal("Test", result);
@@ -40,7 +38,7 @@ namespace LogicBuilder.App.Utils.Tests
             var testObject = new TestClass { Name = "Test", Age = 25 };
 
             // Act
-            var result = TypeUtilities.GetPropertyValue(_typeHelper, testObject, "name");
+            var result = TypeUtils.GetPropertyValue(_typeHelper, testObject, "name");
 
             // Assert
             Assert.Equal("Test", result);
@@ -54,7 +52,7 @@ namespace LogicBuilder.App.Utils.Tests
 
             // Act & Assert
             var exception = Assert.Throws<InvalidOperationException>(() =>
-                TypeUtilities.GetPropertyValue(_typeHelper, testObject, "NonExistentProperty"));
+                TypeUtils.GetPropertyValue(_typeHelper, testObject, "NonExistentProperty"));
 
             Assert.Contains("Failed to get property 'NonExistentProperty'", exception.Message);
         }
@@ -64,7 +62,7 @@ namespace LogicBuilder.App.Utils.Tests
         {
             // Act & Assert
             Assert.Throws<InvalidOperationException>(() =>
-                TypeUtilities.GetPropertyValue(_typeHelper, null!, "Name"));
+                TypeUtils.GetPropertyValue(_typeHelper, null!, "Name"));
         }
 
         #endregion
@@ -78,7 +76,7 @@ namespace LogicBuilder.App.Utils.Tests
             var typeName = typeof(string).AssemblyQualifiedName;
 
             // Act
-            var result = TypeUtilities.GetType(_typeHelper, typeName!);
+            var result = TypeUtils.GetType(_typeHelper, typeName!);
 
             // Assert
             Assert.Equal(typeof(string), result);
@@ -91,7 +89,7 @@ namespace LogicBuilder.App.Utils.Tests
             var invalidTypeName = "Invalid.Type.Name, Invalid.Assembly";
 
             // Act
-            var result = TypeUtilities.GetType(_typeHelper, invalidTypeName);
+            var result = TypeUtils.GetType(_typeHelper, invalidTypeName);
 
             // Assert
             Assert.Null(result);
@@ -108,7 +106,7 @@ namespace LogicBuilder.App.Utils.Tests
             var type = typeof(int);
 
             // Act
-            var result = TypeUtilities.ToTypeString(_typeHelper, type);
+            var result = TypeUtils.ToTypeString(_typeHelper, type);
 
             // Assert
             Assert.Equal(type.AssemblyQualifiedName, result);
@@ -122,7 +120,7 @@ namespace LogicBuilder.App.Utils.Tests
         public void TryParse_ParsesStringSuccessfully()
         {
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, "Hello", typeof(string), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, "Hello", typeof(string), out var result);
 
             // Assert
             Assert.True(success);
@@ -143,7 +141,7 @@ namespace LogicBuilder.App.Utils.Tests
         public void TryParse_ParsesNumericTypesSuccessfully(string input, Type type, object expected)
         {
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, input, type, out var result);
+            var success = TypeUtils.TryParse(_typeHelper, input, type, out var result);
 
             // Assert
             Assert.True(success);
@@ -158,7 +156,7 @@ namespace LogicBuilder.App.Utils.Tests
             var expectedDate = DateTime.Parse(dateString, CultureInfo.CurrentCulture);
 
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, dateString, typeof(DateTime), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, dateString, typeof(DateTime), out var result);
 
             // Assert
             Assert.True(success);
@@ -173,7 +171,7 @@ namespace LogicBuilder.App.Utils.Tests
             var guidString = guid.ToString();
 
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, guidString, typeof(Guid), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, guidString, typeof(Guid), out var result);
 
             // Assert
             Assert.True(success);
@@ -187,7 +185,7 @@ namespace LogicBuilder.App.Utils.Tests
             var timeSpan = "01:30:00";
 
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, timeSpan, typeof(TimeSpan), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, timeSpan, typeof(TimeSpan), out var result);
 
             // Assert
             Assert.True(success);
@@ -202,7 +200,7 @@ namespace LogicBuilder.App.Utils.Tests
             var expectedDateOffset = DateTimeOffset.Parse(dateOffsetString, CultureInfo.CurrentCulture);
 
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, dateOffsetString, typeof(DateTimeOffset), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, dateOffsetString, typeof(DateTimeOffset), out var result);
 
             // Assert
             Assert.True(success);
@@ -213,7 +211,7 @@ namespace LogicBuilder.App.Utils.Tests
         public void TryParse_ParsesEnumByNameSuccessfully()
         {
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, "Value2", typeof(TestType), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, "Value2", typeof(TestType), out var result);
 
             // Assert
             Assert.True(success);
@@ -224,7 +222,7 @@ namespace LogicBuilder.App.Utils.Tests
         public void TryParse_ParsesEnumByValueSuccessfully()
         {
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, "1", typeof(TestType), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, "1", typeof(TestType), out var result);
 
             // Assert
             Assert.True(success);
@@ -235,7 +233,7 @@ namespace LogicBuilder.App.Utils.Tests
         public void TryParse_ReturnsFalse_ForInvalidEnumValue()
         {
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, "InvalidValue", typeof(TestType), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, "InvalidValue", typeof(TestType), out var result);
 
             // Assert
             Assert.False(success);
@@ -246,7 +244,7 @@ namespace LogicBuilder.App.Utils.Tests
         public void TryParse_ParsesNullableIntSuccessfully()
         {
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, "42", typeof(int?), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, "42", typeof(int?), out var result);
 
             // Assert
             Assert.True(success);
@@ -257,7 +255,7 @@ namespace LogicBuilder.App.Utils.Tests
         public void TryParse_ReturnsFalse_ForInvalidIntValue()
         {
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, "not a number", typeof(int), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, "not a number", typeof(int), out var result);
 
             // Assert
             Assert.False(success);
@@ -268,7 +266,7 @@ namespace LogicBuilder.App.Utils.Tests
         public void TryParse_ReturnsFalse_ForInvalidDateTimeValue()
         {
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, "not a date", typeof(DateTime), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, "not a date", typeof(DateTime), out var result);
 
             // Assert
             Assert.False(success);
@@ -280,7 +278,7 @@ namespace LogicBuilder.App.Utils.Tests
         {
             // Act & Assert
             var exception = Assert.Throws<ArgumentException>(() =>
-                TypeUtilities.TryParse(_typeHelper, "test", null!, out var _));
+                TypeUtils.TryParse(_typeHelper, "test", null!, out var _));
 
             Assert.Contains("Argument cannot be null", exception.Message);
             Assert.Equal("type", exception.ParamName);
@@ -291,7 +289,7 @@ namespace LogicBuilder.App.Utils.Tests
         {
             // Act & Assert
             var exception = Assert.Throws<ArgumentException>(() =>
-                TypeUtilities.TryParse(_typeHelper, "test", typeof(TestClass), out var _));
+                TypeUtils.TryParse(_typeHelper, "test", typeof(TestClass), out var _));
 
             Assert.Contains("Not a valid literal type", exception.Message);
             Assert.Equal("type", exception.ParamName);
@@ -301,7 +299,7 @@ namespace LogicBuilder.App.Utils.Tests
         public void TryParse_ParsesCharSuccessfully()
         {
             // Act
-            var success = TypeUtilities.TryParse(_typeHelper, "A", typeof(char), out var result);
+            var success = TypeUtils.TryParse(_typeHelper, "A", typeof(char), out var result);
 
             // Assert
             Assert.True(success);
