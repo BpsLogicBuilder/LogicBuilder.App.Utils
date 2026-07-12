@@ -12,13 +12,55 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddAppUtilsServices(this IServiceCollection services)
         {
             return services
-                .AddTransient<IDictionaryHelper, DictionaryHelper>()
-                .AddTransient<IGenericsHelpers, GenericsHelpers>()
+                .AddAppUtilsDictionaryHelper()
+                .AddAppUtilsGenericsHelpers()
+                .AddAppUtilsHttpClientHelper()
+                .AddAppUtilsMappingOperations()
+                .AddAppUtilsObjectHelper()
+                .AddAppUtilsStringHelper()
+                .AddAppUtilsTypeHelper();
+        }
+
+        public static IServiceCollection AddAppUtilsDictionaryHelper(this IServiceCollection services)
+        {
+            return services
+                .AddTransient<IDictionaryHelper, DictionaryHelper>();
+        }
+
+        public static IServiceCollection AddAppUtilsGenericsHelpers(this IServiceCollection services)
+        {
+            return services
+                .AddTransient<IGenericsHelpers, GenericsHelpers>();
+        }
+
+        public static IServiceCollection AddAppUtilsHttpClientHelper(this IServiceCollection services)
+        {
+            return services
                 .AddTransient<IHttpClientHelper, HttpClientHelper>()
-                .AddHttpClient()
-                .AddTransient<IMappingOperations, MappingOperations>()
-                .AddTransient<IObjectHelper, ObjectHelper>()
-                .AddTransient<IStringHelper, StringHelper>()
+                .AddHttpClient();
+        }
+
+        public static IServiceCollection AddAppUtilsMappingOperations(this IServiceCollection services)
+        {
+            return services
+                .AddTransient<IMappingOperations, MappingOperations>();
+        }
+
+        public static IServiceCollection AddAppUtilsObjectHelper(this IServiceCollection services)
+        {
+            return services
+                .AddTransient<IObjectHelper, ObjectHelper>();
+        }
+
+        public static IServiceCollection AddAppUtilsStringHelper(this IServiceCollection services)
+        {
+            return services
+                .AddTransient<IStringHelper, StringHelper>();
+        }
+
+        public static IServiceCollection AddAppUtilsTypeHelper(this IServiceCollection services)
+        {
+            return services
                 .AddTransient<ITypeHelper, TypeHelper>();
         }
     }
