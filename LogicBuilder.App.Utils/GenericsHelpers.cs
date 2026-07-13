@@ -60,6 +60,8 @@ namespace LogicBuilder.App.Utils
 
         public List<T> ToList<T>(IEnumerable<T> enumerable) => [.. enumerable];
 
+        public T[] ToArray<T>(IEnumerable<T> enumerable) => [.. enumerable];
+
         private static T? GetPropertyValue<T>(object valueObject)
         {
             if (valueObject == null)

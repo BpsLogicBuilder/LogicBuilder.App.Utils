@@ -10,6 +10,10 @@ namespace LogicBuilder.App.Utils
         [FunctionGroup(FunctionGroup.Standard)]
         public static List<T> ToList(IGenericsHelpers genericsHelpers, IEnumerable<T> enumerable) => genericsHelpers.ToList(enumerable);
 
+        [AlsoKnownAs("ToArray")]
+        [FunctionGroup(FunctionGroup.Standard)]
+        public static T[] ToArray(IGenericsHelpers genericsHelpers, IEnumerable<T> enumerable) => genericsHelpers.ToArray(enumerable);
+
         [AlsoKnownAs("Single")]
         [FunctionGroup(FunctionGroup.Standard)]
         public static T Single(IGenericsHelpers genericsHelpers, IEnumerable<T> enumerable) => genericsHelpers.Single(enumerable);

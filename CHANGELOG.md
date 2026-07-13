@@ -1,3 +1,5 @@
+* 2026-07-13 - AB#190: Favor service provider with static methods over instance references.
+* 2026-07-13 - AB#190: Adding rules loading and registration to shared library.
 * 2026-07-12 - AB#189: Allow granular service registration.
 * 2026-07-11 - AB#189: Consolidating LogicBuilder.App.Web.Utils with this library.
 * 2026-07-11 - AB#189: Moving all services from LogicBuilder.App.Common.Utils to this library.

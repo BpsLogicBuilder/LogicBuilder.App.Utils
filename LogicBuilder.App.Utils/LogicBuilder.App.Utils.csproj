@@ -40,6 +40,7 @@
     <PackageReference Include="LogicBuilder.Attributes" Version="2.0.6" />
 		<PackageReference Include="LogicBuilder.Expressions.Utils" Version="8.0.3" />
 		<PackageReference Include="LogicBuilder.Forms.Parameters" Version="2.1.1" />
+		<PackageReference Include="LogicBuilder.RulesDirector" Version="2.0.6" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.9" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.9" />
 		<PackageReference Include="MinVer" Version="7.0.0">
@@ -49,6 +50,21 @@
     <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
     <PackageReference Include="System.Text.Json" Version="10.0.9" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

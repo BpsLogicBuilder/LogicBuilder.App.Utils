@@ -1,5 +1,7 @@
 ﻿using LogicBuilder.App.Utils;
 using LogicBuilder.App.Utils.Interfaces;
+using LogicBuilder.App.Utils.Rules;
+using LogicBuilder.App.Utils.Rules.Interfaces;
 using LogicBuilder.App.Utils.Web;
 using LogicBuilder.App.Utils.Web.Interfaces;
 
@@ -17,6 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddAppUtilsHttpClientHelper()
                 .AddAppUtilsMappingOperations()
                 .AddAppUtilsObjectHelper()
+                .AddAppUtilsRulesLoader()
                 .AddAppUtilsStringHelper()
                 .AddAppUtilsTypeHelper();
         }
@@ -50,6 +53,13 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             return services
                 .AddTransient<IObjectHelper, ObjectHelper>();
+        }
+
+        public static IServiceCollection AddAppUtilsRulesLoader(this IServiceCollection services)
+        {
+            return services
+                .AddTransient<IRulesLoader, RulesLoader>()
+                .AddTransient<IRulesSerializer, RulesSerializer>();
         }
 
         public static IServiceCollection AddAppUtilsStringHelper(this IServiceCollection services)

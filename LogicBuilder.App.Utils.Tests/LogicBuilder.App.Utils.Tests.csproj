@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Contoso.Test.Flow\Contoso.Test.Flow.csproj" />
     <ProjectReference Include="..\LogicBuilder.App.Utils\LogicBuilder.App.Utils.csproj" />
   </ItemGroup>
 
