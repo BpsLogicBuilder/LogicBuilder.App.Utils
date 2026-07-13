@@ -6,6 +6,8 @@ namespace LogicBuilder.App.Utils.Interfaces
     {
         List<T> ToList<T>(IEnumerable<T> enumerable);
 
+        T[] ToArray<T>(IEnumerable<T> enumerable);
+
         T Single<T>(IEnumerable<T> enumerable);
 
         T SingleOrDefault<T>(IEnumerable<T> enumerable);

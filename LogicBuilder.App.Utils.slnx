@@ -5,6 +5,15 @@
     <File Path=".github/workflows/release.yml" />
     <File Path="CHANGELOG.md" />
   </Folder>
-  <Project Path="LogicBuilder.App.Utils.Tests/LogicBuilder.App.Utils.Tests.csproj" />
-  <Project Path="LogicBuilder.App.Utils/LogicBuilder.App.Utils.csproj" />
+  <Folder Name="/src/">
+    <Project Path="LogicBuilder.App.Utils/LogicBuilder.App.Utils.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="LogicBuilder.App.Utils.Tests/LogicBuilder.App.Utils.Tests.csproj" />
+  </Folder>
+  <Folder Name="/test/sample-app/">
+    <Project Path="Contoso.Domain/Contoso.Domain.csproj" />
+    <Project Path="Contoso.Test.Business/Contoso.Test.Business.csproj" />
+    <Project Path="Contoso.Test.Flow/Contoso.Test.Flow.csproj" />
+  </Folder>
 </Solution>

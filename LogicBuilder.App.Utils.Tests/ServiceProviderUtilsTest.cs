@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LogicBuilder.App.Utils.Interfaces;
+using LogicBuilder.App.Utils.Rules.Interfaces;
 using LogicBuilder.App.Utils.Web.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -25,6 +26,8 @@ namespace LogicBuilder.App.Utils.Tests
             IHttpClientHelper httpClientHelper = ServiceProviderUtils<IHttpClientHelper>.GetRequiredService(serviceProvider);
             IMappingOperations mappingOperations = ServiceProviderUtils<IMappingOperations>.GetRequiredService(serviceProvider);
             IObjectHelper objectHelper = ServiceProviderUtils<IObjectHelper>.GetRequiredService(serviceProvider);
+            IRulesLoader rulesLoader = ServiceProviderUtils<IRulesLoader>.GetRequiredService(serviceProvider);
+            IRulesSerializer rulesSerializer = ServiceProviderUtils<IRulesSerializer>.GetRequiredService(serviceProvider);
             IStringHelper stringHelper = ServiceProviderUtils<IStringHelper>.GetRequiredService(serviceProvider);
             ITypeHelper typeHelper = ServiceProviderUtils<ITypeHelper>.GetRequiredService(serviceProvider);
 
@@ -34,6 +37,8 @@ namespace LogicBuilder.App.Utils.Tests
             Assert.NotNull(httpClientHelper);
             Assert.NotNull(mappingOperations);
             Assert.NotNull(objectHelper);
+            Assert.NotNull(rulesLoader);
+            Assert.NotNull(rulesSerializer);
             Assert.NotNull(stringHelper);
             Assert.NotNull(typeHelper);
         }
