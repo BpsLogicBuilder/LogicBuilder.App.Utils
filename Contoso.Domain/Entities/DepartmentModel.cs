@@ -1,140 +1,45 @@
 ﻿using LogicBuilder.Attributes;
+using LogicBuilder.Domain;
 using System.Collections.Generic;
 
 
 namespace Contoso.Domain.Entities
 {
-    public class DepartmentModel : EntityModelBase
+    public class DepartmentModel : BaseModel
     {
-		private int _departmentID;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Department_DepartmentID")]
-		public int DepartmentID
-		{
-			get { return _departmentID; }
-			set
-			{
-				if (_departmentID == value)
-					return;
+		public int DepartmentID { get; set; }
 
-				_departmentID = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private string _name;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Department_Name")]
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				if (_name == value)
-					return;
+		public string Name { get; set; }
 
-				_name = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private decimal _budget;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Department_Budget")]
-		public decimal Budget
-		{
-			get { return _budget; }
-			set
-			{
-				if (_budget == value)
-					return;
+		public decimal Budget { get; set; }
 
-				_budget = value;
-				OnPropertyChanged();
-			}
-		}
+        public string BudgetString { get; set; }
 
-		public string BudgetString { get; set; }
-
-		private System.DateTime _startDate;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Department_StartDate")]
-		public System.DateTime StartDate
-		{
-			get { return _startDate; }
-			set
-			{
-				if (_startDate == value)
-					return;
+		public System.DateTime StartDate { get; set; }
 
-				_startDate = value;
-				OnPropertyChanged();
-			}
-		}
+        public string StartDateString { get; set; }
 
-		public string StartDateString { get; set; }
-
-		private int? _instructorID;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Department_InstructorID")]
-		public int? InstructorID
-		{
-			get { return _instructorID; }
-			set
-			{
-				if (_instructorID == value)
-					return;
+		public int? InstructorID { get; set; }
 
-				_instructorID = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private byte[] _rowVersion;
 		[ListEditorControl(ListControlType.HashSetForm)]
 		[AlsoKnownAs("Department_RowVersion")]
-		public byte[] RowVersion
-		{
-			get { return _rowVersion; }
-			set
-			{
-				if (_rowVersion == value)
-					return;
+		public byte[] RowVersion { get; set; }
 
-				_rowVersion = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private string _administratorName;
 		[AlsoKnownAs("Department_AdministratorName")]
-		public string AdministratorName
-		{
-			get { return _administratorName; }
-			set
-			{
-				if (_administratorName == value)
-					return;
+		public string AdministratorName { get; set; }
 
-				_administratorName = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private ICollection<CourseModel> _courses;
 		[ListEditorControl(ListControlType.HashSetForm)]
 		[AlsoKnownAs("Department_Courses")]
-		public ICollection<CourseModel> Courses
-		{
-			get { return _courses; }
-			set
-			{
-				if (_courses == value)
-					return;
-
-				_courses = value;
-				OnPropertyChanged();
-			}
-		}
+		public ICollection<CourseModel> Courses { get; set; }
     }
 }

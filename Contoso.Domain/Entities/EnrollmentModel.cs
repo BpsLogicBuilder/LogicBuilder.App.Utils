@@ -1,116 +1,33 @@
 ﻿using LogicBuilder.Attributes;
+using LogicBuilder.Domain;
 
 
 namespace Contoso.Domain.Entities
 {
-    public class EnrollmentModel : EntityModelBase
+    public class EnrollmentModel : BaseModel
     {
-		private int _enrollmentID;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Enrollment_EnrollmentID")]
-		public int EnrollmentID
-		{
-			get { return _enrollmentID; }
-			set
-			{
-				if (_enrollmentID == value)
-					return;
+		public int EnrollmentID { get; set; }
 
-				_enrollmentID = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private int _courseID;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Enrollment_CourseID")]
-		public int CourseID
-		{
-			get { return _courseID; }
-			set
-			{
-				if (_courseID == value)
-					return;
+		public int CourseID { get; set; }
 
-				_courseID = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private int _studentID;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Enrollment_StudentID")]
-		public int StudentID
-		{
-			get { return _studentID; }
-			set
-			{
-				if (_studentID == value)
-					return;
+		public int StudentID { get; set; }
 
-				_studentID = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private Grade? _grade;
 		[AlsoKnownAs("Enrollment_Grade")]
-		public Grade? Grade
-		{
-			get { return _grade; }
-			set
-			{
-				if (_grade == value)
-					return;
+		public Grade? Grade { get; set; }
 
-				_grade = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private string _gradeLetter;
 		[AlsoKnownAs("Enrollment_GradeLetter")]
-		public string GradeLetter
-		{
-			get { return _gradeLetter; }
-			set
-			{
-				if (_gradeLetter == value)
-					return;
+		public string GradeLetter { get; set; }
 
-				_gradeLetter = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private string _courseTitle;
 		[AlsoKnownAs("Enrollment_CourseTitle")]
-		public string CourseTitle
-		{
-			get { return _courseTitle; }
-			set
-			{
-				if (_courseTitle == value)
-					return;
+		public string CourseTitle { get; set; }
 
-				_courseTitle = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private string _studentName;
 		[AlsoKnownAs("Enrollment_StudentName")]
-		public string StudentName
-		{
-			get { return _studentName; }
-			set
-			{
-				if (_studentName == value)
-					return;
-
-				_studentName = value;
-				OnPropertyChanged();
-			}
-		}
-	}
+		public string StudentName { get; set; }
+    }
 }

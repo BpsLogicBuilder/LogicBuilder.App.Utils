@@ -1,4 +1,5 @@
-﻿using Contoso.Test.Business.Requests;
+﻿using Contoso.Domain.Entities;
+using Contoso.Test.Business.Requests;
 using Contoso.Test.Flow;
 using Contoso.Test.Flow.Cache;
 using LogicBuilder.RulesDirector;
@@ -62,7 +63,7 @@ namespace LogicBuilder.App.Utils.Tests.Rules
                         [
                             typeof(Interfaces.ITypeHelper).Assembly,
                             typeof(IBaseRequest).Assembly,
-                            typeof(Contoso.Domain.EntityModelBase).Assembly,
+                            typeof(CourseModel).Assembly,
                             typeof(DirectorBase).Assembly,
                             typeof(string).Assembly
                         ]

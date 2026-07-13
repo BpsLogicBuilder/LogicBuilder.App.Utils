@@ -32,7 +32,7 @@ namespace LogicBuilder.App.Utils.Tests.Rules
         private static readonly List<Assembly> referenceAssemblies = [
                             typeof(Interfaces.ITypeHelper).Assembly,
                             typeof(IBaseRequest).Assembly,
-                            typeof(Contoso.Domain.EntityModelBase).Assembly,
+                            typeof(CourseModel).Assembly,
                             typeof(DirectorBase).Assembly,
                             typeof(string).Assembly
                         ];

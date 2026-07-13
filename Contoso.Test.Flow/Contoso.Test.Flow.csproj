@@ -6,6 +6,7 @@
 		<SignAssembly>true</SignAssembly>
 		<LangVersion>latest</LangVersion>
 		<WarningsAsErrors>true</WarningsAsErrors>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>

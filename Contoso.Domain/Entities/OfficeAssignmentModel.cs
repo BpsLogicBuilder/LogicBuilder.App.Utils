@@ -1,40 +1,17 @@
 ﻿using LogicBuilder.Attributes;
+using LogicBuilder.Domain;
 
 
 namespace Contoso.Domain.Entities
 {
-    public class OfficeAssignmentModel : EntityModelBase
+    public class OfficeAssignmentModel : BaseModel
     {
-		private int _instructorID;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("OfficeAssignment_InstructorID")]
-		public int InstructorID
-		{
-			get { return _instructorID; }
-			set
-			{
-				if (_instructorID == value)
-					return;
+		public int InstructorID { get; set; }
 
-				_instructorID = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private string _location;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("OfficeAssignment_Location")]
-		public string Location
-		{
-			get { return _location; }
-			set
-			{
-				if (_location == value)
-					return;
-
-				_location = value;
-				OnPropertyChanged();
-			}
-		}
+		public string Location { get; set; }
     }
 }

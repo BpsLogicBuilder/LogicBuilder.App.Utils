@@ -1,109 +1,38 @@
 ﻿using LogicBuilder.Attributes;
+using LogicBuilder.Domain;
 using System.Collections.Generic;
 
 
 namespace Contoso.Domain.Entities
 {
-    public class InstructorModel : EntityModelBase
+    public class InstructorModel : BaseModel
     {
-		private int _iD;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Instructor_ID")]
-		public int ID
-		{
-			get { return _iD; }
-			set
-			{
-				if (_iD == value)
-					return;
+		public int ID { get; set; }
 
-				_iD = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private string _lastName;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Instructor_LastName")]
-		public string LastName
-		{
-			get { return _lastName; }
-			set
-			{
-				if (_lastName == value)
-					return;
+		public string LastName { get; set; }
 
-				_lastName = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private string _firstName;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Instructor_FirstName")]
-		public string FirstName
-		{
-			get { return _firstName; }
-			set
-			{
-				if (_firstName == value)
-					return;
+		public string FirstName { get; set; }
 
-				_firstName = value;
-				OnPropertyChanged();
-			}
-		}
-
-		[AlsoKnownAs("Instructor_FullName")]
+        [AlsoKnownAs("Instructor_FullName")]
 		public string FullName { get; set; }
 
-		private System.DateTime _hireDate;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Instructor_HireDate")]
-		public System.DateTime HireDate
-		{
-			get { return _hireDate; }
-			set
-			{
-				if (_hireDate == value)
-					return;
+		public System.DateTime HireDate { get; set; }
 
-				_hireDate = value;
-				OnPropertyChanged();
-			}
-		}
+        public string HireDateString { get; set; }
 
-		public string HireDateString { get; set; }
-
-		private ICollection<CourseAssignmentModel> _courses;
 		[ListEditorControl(ListControlType.HashSetForm)]
 		[AlsoKnownAs("Instructor_Courses")]
-		public ICollection<CourseAssignmentModel> Courses
-		{
-			get { return _courses; }
-			set
-			{
-				if (_courses == value)
-					return;
+		public ICollection<CourseAssignmentModel> Courses { get; set; }
 
-				_courses = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private OfficeAssignmentModel _officeAssignment;
 		[AlsoKnownAs("Instructor_OfficeAssignment")]
-		public OfficeAssignmentModel OfficeAssignment
-		{
-			get { return _officeAssignment; }
-			set
-			{
-				if (_officeAssignment == value)
-					return;
-
-				_officeAssignment = value;
-				OnPropertyChanged();
-			}
-		}
+		public OfficeAssignmentModel OfficeAssignment { get; set; }
     }
 }

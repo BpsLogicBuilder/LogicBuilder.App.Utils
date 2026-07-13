@@ -1,106 +1,35 @@
 ﻿using LogicBuilder.Attributes;
+using LogicBuilder.Domain;
 using System.Collections.Generic;
 
 
 namespace Contoso.Domain.Entities
 {
-    public class CourseModel : EntityModelBase
+    public class CourseModel : BaseModel
     {
-		private int _courseID;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Course_CourseID")]
-		public int CourseID
-		{
-			get { return _courseID; }
-			set
-			{
-				if (_courseID == value)
-					return;
+		public int CourseID { get; set; }
 
-				_courseID = value;
-				OnPropertyChanged();
-			}
-		}
+        public string CourseIDString { get; set; }
 
-		public string CourseIDString { get; set; }
-
-		private string _title;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Course_Title")]
-		public string Title
-		{
-			get { return _title; }
-			set
-			{
-				if (_title == value)
-					return;
+		public string Title { get; set; }
 
-				_title = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private int _credits;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Course_Credits")]
-		public int Credits
-		{
-			get { return _credits; }
-			set
-			{
-				if (_credits == value)
-					return;
+		public int Credits { get; set; }
 
-				_credits = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private int _departmentID;
 		[VariableEditorControl(VariableControlType.SingleLineTextBox)]
 		[AlsoKnownAs("Course_DepartmentID")]
-		public int DepartmentID
-		{
-			get { return _departmentID; }
-			set
-			{
-				if (_departmentID == value)
-					return;
+		public int DepartmentID { get; set; }
 
-				_departmentID = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private string _departmentName;
 		[AlsoKnownAs("Course_DepartmentName")]
-		public string DepartmentName
-		{
-			get { return _departmentName; }
-			set
-			{
-				if (_departmentName == value)
-					return;
+		public string DepartmentName { get; set; }
 
-				_departmentName = value;
-				OnPropertyChanged();
-			}
-		}
-
-		private ICollection<CourseAssignmentModel> _assignments;
 		[ListEditorControl(ListControlType.HashSetForm)]
 		[AlsoKnownAs("Course_Assignments")]
-		public ICollection<CourseAssignmentModel> Assignments
-		{
-			get { return _assignments; }
-			set
-			{
-				if (_assignments == value)
-					return;
-
-				_assignments = value;
-				OnPropertyChanged();
-			}
-		}
+		public ICollection<CourseAssignmentModel> Assignments { get; set; }
     }
 }

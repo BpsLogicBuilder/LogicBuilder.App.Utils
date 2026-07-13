@@ -10,14 +10,12 @@ namespace Contoso.Test.Flow
 {
     public class FlowManager : IFlowManager
     {
-        public FlowManager(ICustomActions customActions,
-            DirectorFactory directorFactory,
+        public FlowManager(DirectorFactory directorFactory,
             ILogger<FlowManager> logger, 
             Progress progress,
             FlowDataCache flowDataCache,
             IServiceProvider serviceProvider)
         {
-            this.CustomActions = customActions;
             this.logger = logger;
             this.Progress = progress;
             this.FlowDataCache = flowDataCache;
@@ -29,7 +27,6 @@ namespace Contoso.Test.Flow
         public IFlowActivity FlowActivity { get; }
         public FlowDataCache FlowDataCache { get; }
         public Progress Progress { get; }
-        public ICustomActions CustomActions { get; }
 
         private readonly ILogger<FlowManager> logger;
 

@@ -1,7 +1,10 @@
-﻿using LogicBuilder.RulesDirector;
+﻿using Contoso.Domain.Entities;
+using LogicBuilder.App.Utils.Rules.Interfaces;
+using LogicBuilder.RulesDirector;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 
 namespace Contoso.Test.Flow
 {
@@ -14,6 +17,11 @@ namespace Contoso.Test.Flow
 
         #region Properties
         public DirectorBase Director => this.flowManager.Director;
+        public static Assembly[] MustReference => 
+            [//each assembly needed by the Logic Builder muts be referenced
+                typeof(StudentModel).Assembly, 
+                typeof(IRulesLoader).Assembly
+            ];
         #endregion Properties
 
         #region Methods
