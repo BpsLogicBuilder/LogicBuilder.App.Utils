@@ -4,6 +4,7 @@
 [![CodeQL](https://github.com/BpsLogicBuilder/LogicBuilder.App.Utils/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/BpsLogicBuilder/LogicBuilder.App.Utils/actions/workflows/github-code-scanning/codeql)
 [![codecov](https://codecov.io/gh/BpsLogicBuilder/LogicBuilder.App.Utils/graph/badge.svg?token=IQCZ1TKERD)](https://codecov.io/gh/BpsLogicBuilder/LogicBuilder.App.Utils)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=BpsLogicBuilder_LogicBuilder.App.Utils&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=BpsLogicBuilder_LogicBuilder.App.Utils)
+[![NuGet](https://img.shields.io/nuget/v/LogicBuilder.App.Utils.svg)](https://www.nuget.org/packages/LogicBuilder.App.Utils)
 
 ## Overview
 
