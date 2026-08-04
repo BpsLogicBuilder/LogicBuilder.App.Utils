@@ -39,8 +39,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddAppUtilsHttpClientHelper(this IServiceCollection services)
         {
             return services
-                .AddTransient<IHttpClientHelper, HttpClientHelper>()
-                .AddHttpClient();
+                .AddTransient<IHttpClientHelper, HttpClientHelper>();
         }
 
         public static IServiceCollection AddAppUtilsMappingOperations(this IServiceCollection services)

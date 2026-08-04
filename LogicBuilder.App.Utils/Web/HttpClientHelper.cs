@@ -13,9 +13,9 @@ namespace LogicBuilder.App.Utils.Web
 
         private const string WEB_REQUEST_CONTENT_TYPE = "application/json";
 
-        public async Task<TResult> GetAsync<TResult>(string url, JsonSerializerOptions? options = null)
+        public async Task<TResult> GetAsync<TResult>(string url, JsonSerializerOptions? options = null, string httpClientName = "")
         {
-            using HttpClient httpClient = _httpClientFactory.CreateClient();
+            using HttpClient httpClient = _httpClientFactory.CreateClient(httpClientName);
             using HttpResponseMessage result = await httpClient.GetAsync(url);
             result.EnsureSuccessStatusCode();
 
@@ -26,9 +26,9 @@ namespace LogicBuilder.App.Utils.Web
             ) ?? throw new InvalidOperationException($"Deserialization failed on {nameof(GetAsync)}.");
         }
 
-        public async Task<TResult> PostAsync<TResult>(string url, string jsonObject, JsonSerializerOptions? options = null)
+        public async Task<TResult> PostAsync<TResult>(string url, string jsonObject, JsonSerializerOptions? options = null, string httpClientName = "")
         {
-            using HttpClient httpClient = _httpClientFactory.CreateClient();
+            using HttpClient httpClient = _httpClientFactory.CreateClient(httpClientName);
             using HttpResponseMessage result = await httpClient.PostAsync(url, GetStringContent(jsonObject));
             result.EnsureSuccessStatusCode();
 
@@ -39,9 +39,9 @@ namespace LogicBuilder.App.Utils.Web
             ) ?? throw new InvalidOperationException($"Deserialization failed on {nameof(PostAsync)}.");
         }
 
-        public async Task<TResult> PutAsync<TResult>(string url, string jsonObject, JsonSerializerOptions? options = null)
+        public async Task<TResult> PutAsync<TResult>(string url, string jsonObject, JsonSerializerOptions? options = null, string httpClientName = "")
         {
-            using HttpClient httpClient = _httpClientFactory.CreateClient();
+            using HttpClient httpClient = _httpClientFactory.CreateClient(httpClientName);
             using HttpResponseMessage result = await httpClient.PutAsync(url, GetStringContent(jsonObject));
             result.EnsureSuccessStatusCode();
 
