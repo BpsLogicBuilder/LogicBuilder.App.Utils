@@ -49,6 +49,7 @@ namespace LogicBuilder.App.Utils.Tests
         {
             serviceProvider ??= new ServiceCollection()
                 .AddAppUtilsServices()
+                .AddHttpClient()
                 .AddSingleton<IConfigurationProvider>
                 (
                     new MapperConfiguration(cfg =>
