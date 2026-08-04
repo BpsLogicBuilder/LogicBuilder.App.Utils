@@ -13,7 +13,7 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<Description>This library maintains reusable functions which the logic builder workflow depends on.</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<PackageReleaseNotes>Making NuGet one of the release feeds.</PackageReleaseNotes>
+		<PackageReleaseNotes>Support named HTTP clients.</PackageReleaseNotes>
 		<PackageTags>linq expressions</PackageTags>
 		<Copyright>Copyright © BPS 2026</Copyright>
 		<RepositoryUrl>https://github.com/BpsLogicBuilder/LogicBuilder.App.Utils</RepositoryUrl>
