@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="code coverage">
+        <Configuration>
+          <CodeCoverage>
+            <ModulePaths>
+              <Exclude>
+								<ModulePath>.*Contoso\.Domain\.dll$</ModulePath>
+								<ModulePath>.*Contoso\.Test\.Business\.dll$</ModulePath>
+								<ModulePath>.*Contoso\.Test\.Flow\.dll$</ModulePath>
+							</Exclude>
+            </ModulePaths>
+          </CodeCoverage>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

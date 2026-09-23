@@ -2,6 +2,7 @@
 using LogicBuilder.App.Utils.Interfaces;
 using LogicBuilder.App.Utils.Rules.Interfaces;
 using LogicBuilder.App.Utils.Web.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -22,6 +23,7 @@ namespace LogicBuilder.App.Utils.Tests
         {
             //act
             IDictionaryHelper dictionaryHelper = ServiceProviderUtils<IDictionaryHelper>.GetRequiredService(serviceProvider);
+            IEnvironmentHelpers environmentHelpers = ServiceProviderUtils<IEnvironmentHelpers>.GetRequiredService(serviceProvider);
             IGenericsHelpers genericsHelpers = ServiceProviderUtils<IGenericsHelpers>.GetRequiredService(serviceProvider);
             IHttpClientHelper httpClientHelper = ServiceProviderUtils<IHttpClientHelper>.GetRequiredService(serviceProvider);
             IMappingOperations mappingOperations = ServiceProviderUtils<IMappingOperations>.GetRequiredService(serviceProvider);
@@ -33,6 +35,7 @@ namespace LogicBuilder.App.Utils.Tests
 
             //assert
             Assert.NotNull(dictionaryHelper);
+            Assert.NotNull(environmentHelpers);
             Assert.NotNull(genericsHelpers);
             Assert.NotNull(httpClientHelper);
             Assert.NotNull(mappingOperations);
@@ -47,16 +50,19 @@ namespace LogicBuilder.App.Utils.Tests
         [MemberNotNull(nameof(serviceProvider))]
         private static void RegisterServiceProvider()
         {
+            IConfiguration configuration = new ConfigurationBuilder().Build();
+
             serviceProvider ??= new ServiceCollection()
                 .AddAppUtilsServices()
                 .AddHttpClient()
-                .AddSingleton<IConfigurationProvider>
+                .AddSingleton(configuration)
+                .AddSingleton<AutoMapper.IConfigurationProvider>
                 (
                     new MapperConfiguration(cfg =>
                     {
                     }, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance)
                 )
-                .AddTransient<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService))//mapper configuration reqguired for MappingOperations service
+                .AddTransient<IMapper>(sp => new Mapper(sp.GetRequiredService<AutoMapper.IConfigurationProvider>(), sp.GetService))//mapper configuration reqguired for MappingOperations service
                 .AddLogging()
                 .BuildServiceProvider();
         }
