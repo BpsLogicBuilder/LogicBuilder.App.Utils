@@ -1,3 +1,4 @@
+* 2026-09-23 - AB#229: Add EnvironmentHelpers to ServiceProviderUtils tests.
 * 2026-09-23 - AB#229: Add helper class for environment variables.
 * 2026-08-04 - AB#206: Update release notes.
 * 2026-08-04 - AB#206: Support named HTTP clients.

@@ -15,6 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             return services
                 .AddAppUtilsDictionaryHelper()
+                .AddAppUtilsEnvironmentHelpers()
                 .AddAppUtilsGenericsHelpers()
                 .AddAppUtilsHttpClientHelper()
                 .AddAppUtilsMappingOperations()
@@ -28,6 +29,12 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             return services
                 .AddTransient<IDictionaryHelper, DictionaryHelper>();
+        }
+
+        public static IServiceCollection AddAppUtilsEnvironmentHelpers(this IServiceCollection services)
+        {
+            return services
+                .AddTransient<IEnvironmentHelpers, EnvironmentHelpers>();
         }
 
         public static IServiceCollection AddAppUtilsGenericsHelpers(this IServiceCollection services)
