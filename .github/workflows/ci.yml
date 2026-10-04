@@ -20,11 +20,11 @@ jobs:
       packages: read
 
     steps:
-      - name: Set up JDK
-        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
-          java-version: 25
-          distribution: 'temurin'
+          java-version: 17
+          distribution: 'zulu'
 
       - name: Checkout repository
         uses: actions/checkout@v6

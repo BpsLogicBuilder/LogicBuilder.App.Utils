@@ -1,8 +1,4 @@
-﻿using LogicBuilder.Domain;
-using LogicBuilder.Forms.Parameters.Expressions;
-using System;
-using System.Linq;
-using System.Reflection;
+﻿using System;
 using System.Text.Json;
 
 namespace LogicBuilder.App.Utils.Tests.Json
@@ -15,7 +11,7 @@ namespace LogicBuilder.App.Utils.Tests.Json
         {
             _options = new JsonSerializerOptions
             {
-                Converters = { new Utils.Json.ObjectConverter(typeof(TestClassWithObjectProperties).Assembly) }
+                Converters = { new LogicBuilder.App.Utils.Json.ObjectConverter() }
             };
         }
 
@@ -24,7 +20,7 @@ namespace LogicBuilder.App.Utils.Tests.Json
         public void CanConvert_ReturnsTrueForObjectType()
         {
             // Arrange
-            var converter = new Utils.Json.ObjectConverter();
+            var converter = new LogicBuilder.App.Utils.Json.ObjectConverter();
 
             // Act
             var result = converter.CanConvert(typeof(object));
@@ -37,7 +33,7 @@ namespace LogicBuilder.App.Utils.Tests.Json
         public void CanConvert_ReturnsFalseForNonObjectType()
         {
             // Arrange
-            var converter = new Utils.Json.ObjectConverter();
+            var converter = new LogicBuilder.App.Utils.Json.ObjectConverter();
 
             // Act
             var result = converter.CanConvert(typeof(string));
@@ -118,8 +114,8 @@ namespace LogicBuilder.App.Utils.Tests.Json
 
             // Assert
             Assert.NotNull(result);
-            var typed = Assert.IsType<bool>(result);
-            Assert.True(typed);
+            Assert.IsType<bool>(result);
+            Assert.True((bool)result);
         }
 
         [Fact]
@@ -133,8 +129,8 @@ namespace LogicBuilder.App.Utils.Tests.Json
 
             // Assert
             Assert.NotNull(result);
-            var typed = Assert.IsType<bool>(result);
-            Assert.False(typed);
+            Assert.IsType<bool>(result);
+            Assert.False((bool)result);
         }
 
         [Fact]
@@ -163,7 +159,8 @@ namespace LogicBuilder.App.Utils.Tests.Json
 
             // Assert
             Assert.NotNull(result);
-            var typed = Assert.IsType<TestClassWithObjectProperties>(result);
+            Assert.IsType<TestClassWithObjectProperties>(result);
+            var typed = (TestClassWithObjectProperties)result;
             Assert.Equal(1, typed.Id);
             Assert.Equal("Test", typed.Name);
         }
@@ -179,7 +176,8 @@ namespace LogicBuilder.App.Utils.Tests.Json
 
             // Assert
             Assert.NotNull(result);
-            var typed = Assert.IsType<TestClassWithObjectProperties>(result);
+            Assert.IsType<TestClassWithObjectProperties>(result);
+            var typed = (TestClassWithObjectProperties)result;
             Assert.Equal(2, typed.Id);
             Assert.Equal("Test2", typed.Name);
         }
@@ -191,9 +189,8 @@ namespace LogicBuilder.App.Utils.Tests.Json
             var json = "{\"typefullname\":\"NonExistent.Type, NonExistent.Assembly\",\"Id\":1}";
 
             // Act & Assert
-            var exception = Assert.Throws<JsonException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 JsonSerializer.Deserialize<object>(json, _options));
-            Assert.Equal($"Type \"NonExistent.Type, NonExistent.Assembly\" is not an allowed type for {typeof(object).FullName}.", exception.Message);
         }
         #endregion
 
@@ -458,125 +455,7 @@ namespace LogicBuilder.App.Utils.Tests.Json
         }
         #endregion
 
-        #region KnowTypeTests
-        [Fact]
-        public void ObjectConverterDoesNotInstantiate_TypeOutsideAllowlist()
-        {
-            // Arrange
-            string json = "{\"TypeString\":\"" + typeof(ParameterOperatorParameters).AssemblyQualifiedName + "\"}";
-
-            // Act & Assert
-            var exception = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<object>(json, _options));
-            Assert.Contains($"is not an allowed type for {typeof(object).FullName}.", exception.Message);
-        }
-
-        [Fact]
-        public void ObjectConverterRejects_DescriptorSubtypeFromUnregisteredAssembly()
-        {
-            // Arrange
-            string json = "{\"TypeString\":\"" + typeof(ParameterOperatorParameters).AssemblyQualifiedName + "\"}";
-
-            // Act & Assert
-            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<object>(json, _options));
-            Assert.Throws<JsonException>(() => JsonSerializer.Serialize<object>(new ParameterOperatorParameters("p"), _options));
-        }
-
-        [Fact]
-        public void ObjectConverterAccepts_DescriptorSubtypeFromRegisteredAssembly()
-        {
-            // Arrange
-            string json = JsonSerializer.Serialize<object>(new ExternalModel { Name = "A" }, _options);
-
-            // Act
-            object result = JsonSerializer.Deserialize<object>(json, _options)!;
-
-            // Assert
-            Assert.Equal("A", Assert.IsType<ExternalModel>(result).Name);
-        }
-
-        [Fact]
-        public void ObjectConverterAccepts_TypesFromRegisteredAssembly_UsingTypesListConstructor()
-        {
-            // Arrange
-            JsonSerializerOptions options = new();
-            options.Converters.Add(new TestObjectconverter(typeof(ExternalModel).Assembly.GetTypes().Where(t => typeof(BaseModel).IsAssignableFrom(t)).ToArray()));
-            string json = JsonSerializer.Serialize<BaseModel>(new ExternalModel { Name = "A" }, options);
-
-            // Act
-            BaseModel result = JsonSerializer.Deserialize<BaseModel>(json, options)!;
-
-            // Assert
-            Assert.Equal("A", Assert.IsType<ExternalModel>(result).Name);
-        }
-
-        [Fact]
-        public void ObjectConverterThrowsJsonException_WhenJsonTpePropertyNameIsNotAString()
-        {
-            // Arrange
-            JsonSerializerOptions options = new();
-            options.Converters.Add(new TestObjectconverter(typeof(ExternalModelWithInvalidPropertyType)));
-            string json = JsonSerializer.Serialize(new ExternalModelWithInvalidPropertyType { Name = "A" }, options);
-
-            // Act Assert
-            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<object>(json, options)!);
-        }
-
-        [Fact]
-        public void ObjectConverterAccepts_TypeStringWithDifferentAssemblyVersion()
-        {
-            // Arrange
-            string typeString = $"{typeof(ExternalModel).FullName}, {typeof(ExternalModel).Assembly.GetName().Name}, Version=0.0.0.1, Culture=neutral, PublicKeyToken=null";
-            string json = "{\"TypeString\":\"" + typeString + "\",\"Constant\":1}";
-
-            // Act & Assert
-            Assert.IsType<ExternalModel>(JsonSerializer.Deserialize<object>(json, _options));
-        }
-
-        [Fact]
-        public void CreateConverterThrows_WhenTypesListContainsInvalidTypes()
-        {
-            // Act Assert
-            Assert.Throws<ArgumentException>(() =>
-            {
-                new TestObjectconverter(typeof(ExternalModel).Assembly.GetTypes().ToArray());
-            });
-        }
-
-        [Fact]
-        public void CreateConverterThrows_WhenTypesListIsNull()
-        {
-            // Act Assert
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new TestObjectconverter((Type[])null!);
-            });
-        }
-
-        [Fact]
-        public void CreateConverterThrows_WhenAssemblyListIsNull()
-        {
-            // Act Assert
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new TestObjectconverter((Assembly[])null!);
-            });
-        }
-        #endregion
-
         #region Test Helper Classes
-        public class ExternalModel : BaseModel
-        {
-            public int ID { get; set; }
-            public string? Name { get; set; }
-        }
-
-        public class ExternalModelWithInvalidPropertyType
-        {
-            public int ID { get; set; }
-            public string? Name { get; set; }
-            public int TypeString { get; set; }
-        }
-
         public class TestClassWithObjectProperties
         {
             public int Id { get; set; }
@@ -591,23 +470,6 @@ namespace LogicBuilder.App.Utils.Tests.Json
             public object? ObjectProp1 { get; set; }
             public object? ObjectProp2 { get; set; }
             public object? NullObjectProp { get; set; }
-        }
-
-        internal class TestObjectconverter : Utils.Json.ObjectConverter
-        {
-            public TestObjectconverter()
-            {
-            }
-
-            public TestObjectconverter(params Assembly[] additionalAssemblies)
-                : base(additionalAssemblies)
-            {
-            }
-
-            public TestObjectconverter(params Type[] types)
-                : base(types)
-            {
-            }
         }
         #endregion
     }

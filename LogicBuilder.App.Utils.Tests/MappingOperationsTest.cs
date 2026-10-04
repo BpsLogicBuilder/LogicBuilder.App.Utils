@@ -54,9 +54,9 @@ namespace LogicBuilder.App.Utils.Tests
             Assert.NotNull(result);
             Assert.NotNull(result.ExpandedItems);
             Assert.NotNull(result.Selects);
-            var item = Assert.Single(result.Selects);
+            Assert.Single(result.Selects);
             Assert.Equal(2, result.ExpandedItems.Count);
-            Assert.Equal("Products", item);
+            Assert.Equal("Products", result.Selects[0]);
             Assert.Equal("CategoryID", result.ExpandedItems[0].MemberName);
             Assert.Equal("CategoryName", result.ExpandedItems[1].MemberName);
         }
@@ -82,9 +82,9 @@ namespace LogicBuilder.App.Utils.Tests
             Assert.NotNull(result);
             Assert.NotNull(result.ExpandedItems);
             Assert.NotNull(result.Selects);
-            var item = Assert.Single(result.Selects);
+            Assert.Single(result.Selects);
             Assert.Equal(2, result.ExpandedItems.Count);
-            Assert.Equal("Products", item);
+            Assert.Equal("Products", result.Selects[0]);
             Assert.Equal("CategoryID", result.ExpandedItems[0].MemberName);
             Assert.Equal("CategoryName", result.ExpandedItems[1].MemberName);
         }
