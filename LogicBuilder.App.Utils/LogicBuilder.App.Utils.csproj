@@ -13,7 +13,7 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<Description>This library maintains reusable functions which the logic builder workflow depends on.</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<PackageReleaseNotes>Remediate unsafe deserialization.</PackageReleaseNotes>
+		<PackageReleaseNotes>Remediate unsafe deserialization by enforcing an allowed assembly list on the ObjectConverter.</PackageReleaseNotes>
 		<PackageTags>linq expressions</PackageTags>
 		<Copyright>Copyright © BPS 2026</Copyright>
 		<RepositoryUrl>https://github.com/BpsLogicBuilder/LogicBuilder.App.Utils</RepositoryUrl>

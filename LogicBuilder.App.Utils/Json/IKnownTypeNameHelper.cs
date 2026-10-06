@@ -5,6 +5,14 @@ namespace LogicBuilder.App.Utils.Json
     internal interface IKnownTypeNameHelper
     {
         /// <summary>
+        /// End index for the type name section of the assembly qualified type name.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="startIndex"></param>
+        /// <returns></returns>
+        int GetEndTypeNameIndex(string value, int startIndex);
+
+        /// <summary>
         /// Gets the key "Namespace.TypeName, AssemblySimpleName" given the assembly qualified name.
         /// </summary>
         /// <param name="assemblyQualifiedName"></param>
