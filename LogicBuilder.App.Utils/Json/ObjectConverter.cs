@@ -15,10 +15,6 @@ namespace LogicBuilder.App.Utils.Json
 
         private static readonly HashSet<string> KnownTypeStrings = ["typefullname", "typestring"];
 
-        public ObjectConverter() : this((Assembly[])[])
-        {
-        }
-
         public ObjectConverter(params Assembly[] assemblies)
             : this((IEnumerable<Assembly>)assemblies)
         {
@@ -172,7 +168,8 @@ namespace LogicBuilder.App.Utils.Json
                 return;
             }
 
-            if (!knownTypes.TryGetValue(knownTypeNameHelper.GetKey(type), out Type? knownType) || knownType != type)
+            Type lookupType = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
+            if (!knownTypes.TryGetValue(knownTypeNameHelper.GetKey(lookupType), out Type? knownType) || knownType != lookupType)
                 throw new JsonException($"Type \"{type.AssemblyQualifiedName}\" is not an allowed type for {typeof(object).FullName}.");
 
             JsonSerializer.Serialize(writer, value, type, options);

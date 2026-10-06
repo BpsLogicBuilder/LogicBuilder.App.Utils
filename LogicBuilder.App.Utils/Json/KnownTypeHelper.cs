@@ -27,8 +27,11 @@ namespace LogicBuilder.App.Utils.Json
             return type != null
                 && !type.IsAbstract
                 && !type.IsInterface
-                && !type.ContainsGenericParameters
-                && typeof(object).IsAssignableFrom(type);
+                && (
+                        typeof(object).IsAssignableFrom(type)
+                        ||
+                        (type.IsGenericType && typeof(object).IsAssignableFrom(type.GetGenericTypeDefinition()))
+                );
         }
 
         public IEnumerable<Type> LoadTypesFromAssembly(Assembly assembly)
@@ -46,7 +49,7 @@ namespace LogicBuilder.App.Utils.Json
         public Type? ResolveType(string typeString, IReadOnlyDictionary<string, Type> knownTypes)
         {
             string? key = knownTypeNameHelper.GetKey(typeString);
-            return key != null && knownTypes.TryGetValue(key, out Type? type) ? type : null;
+            return key != null && knownTypes.TryGetValue(key, out Type? _) ? Type.GetType(typeString) : null;
         }
     }
 }

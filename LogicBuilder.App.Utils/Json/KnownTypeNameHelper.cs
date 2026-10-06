@@ -11,15 +11,16 @@ namespace LogicBuilder.App.Utils.Json
         /// <returns></returns>
         public string? GetKey(string assemblyQualifiedName)
         {
-            int typeNameEnd = IndexOfTopLevelComma(assemblyQualifiedName, 0);
+            int typeNameEnd = GetEndTypeNameIndex(assemblyQualifiedName, 0);
             if (typeNameEnd < 0)
                 return null;
 
-            int assemblyNameEnd = IndexOfTopLevelComma(assemblyQualifiedName, typeNameEnd + 1);
+            int assemblyNameBegin = IndexOfTopLevelComma(assemblyQualifiedName, 0) + 1;
+            int assemblyNameEnd = IndexOfTopLevelComma(assemblyQualifiedName, assemblyNameBegin);
             string typeName = assemblyQualifiedName.Substring(0, typeNameEnd).Trim();
             string assemblyName = (assemblyNameEnd < 0
-                ? assemblyQualifiedName.Substring(typeNameEnd + 1)
-                : assemblyQualifiedName.Substring(typeNameEnd + 1, assemblyNameEnd - typeNameEnd - 1)).Trim();
+                ? assemblyQualifiedName.Substring(assemblyNameBegin)
+                : assemblyQualifiedName.Substring(assemblyNameBegin, assemblyNameEnd - assemblyNameBegin)).Trim();
 
             if (typeName.Length == 0 || assemblyName.Length == 0)
                 return null;
@@ -35,6 +36,30 @@ namespace LogicBuilder.App.Utils.Json
         public string GetKey(Type type)
         {
             return $"{type.FullName}, {type.Assembly.GetName().Name}";
+        }
+
+        /// <summary>
+        /// End index for the type name section of the assembly qualified type name.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="startIndex"></param>
+        /// <returns></returns>
+        public int GetEndTypeNameIndex(string value, int startIndex)
+        {
+            for (int i = startIndex; i < value.Length; i++)
+            {
+                switch (value[i])
+                {
+                    case '[':
+                        return i;
+                    case ']':
+                        throw new InvalidOperationException("Unexpected character ']'");
+                    case ',':
+                        return i;
+                }
+            }
+
+            return -1;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using LogicBuilder.App.Utils.Json;
+using System;
 
 namespace LogicBuilder.App.Utils.Tests.Json
 {
@@ -29,7 +30,7 @@ namespace LogicBuilder.App.Utils.Tests.Json
         [InlineData("Enrollment.Domain.Entities.LookUpsModel", null)]
         [InlineData("Enrollment.Domain.Entities.LookUpsModel,", null)]
         [InlineData(", Enrollment.Domain", null)]
-        [InlineData("System.Linq.IQueryable`1[[Enrollment.Domain.Entities.LookUpsModel, Enrollment.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Linq.Expressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.Linq.IQueryable`1[[Enrollment.Domain.Entities.LookUpsModel, Enrollment.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Linq.Expressions")]
+        [InlineData("System.Linq.IQueryable`1[[Enrollment.Domain.Entities.LookUpsModel, Enrollment.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Linq.Expressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.Linq.IQueryable`1, System.Linq.Expressions")]
         public void GetKeyReturnsExpectedResult(string typeName, string? expectedResult)
         {
             //act
@@ -37,6 +38,29 @@ namespace LogicBuilder.App.Utils.Tests.Json
 
             //assert
             Assert.Equal(expectedResult, result);
+        }
+
+        [Theory]
+        [InlineData("Enrollment.Domain.Entities.LookUpsModel, Enrollment.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", 0, 39)]
+        [InlineData("Enrollment.Domain.Entities.LookUpsModel", 0, -1)]
+        [InlineData("System.Linq.IQueryable`1[[Enrollment.Domain.Entities.LookUpsModel, Enrollment.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Linq.Expressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", 0, 24)]
+        public void GetEndTypeNameIndexReturnsExpectedResult(string typeName, int startIndex, int expectedIndex)
+        {
+            //act
+            var result = helper.GetEndTypeNameIndex(typeName, startIndex);
+
+            //assert
+            Assert.Equal(expectedIndex, result);
+        }
+
+        [Fact]
+        public void GetEndTypeNameIndexThrowsForUnexpectedCharacter()
+        {
+            //arrange
+            string typeName = "Enrollment.Domain].Entities.LookUpsModel";
+
+            //act assert
+            Assert.Throws<InvalidOperationException>(() => helper.GetEndTypeNameIndex(typeName, 0));
         }
     }
 }

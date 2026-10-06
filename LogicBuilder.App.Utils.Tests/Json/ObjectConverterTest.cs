@@ -1,4 +1,5 @@
-﻿using LogicBuilder.Domain;
+﻿using LogicBuilder.App.Utils.Json;
+using LogicBuilder.Domain;
 using LogicBuilder.Forms.Parameters.Expressions;
 using System;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace LogicBuilder.App.Utils.Tests.Json
 
         public ObjectConverterTest()
         {
-            _options = new JsonSerializerOptions
-            {
-                Converters = { new Utils.Json.ObjectConverter(typeof(TestClassWithObjectProperties).Assembly) }
-            };
+            _options = new JsonSerializerOptions();
+            _options.AddAssemblyFilteredConverter
+             (
+                new Utils.Json.ObjectConverter(typeof(TestClassWithObjectProperties).Assembly),
+                typeof(TestClassWithObjectProperties).Assembly
+             );
         }
 
         #region CanConvert Tests
@@ -52,102 +55,112 @@ namespace LogicBuilder.App.Utils.Tests.Json
         public void Read_DeserializesStringValue()
         {
             // Arrange
-            var json = "\"test string\"";
+            var initial = new ClassWithObjectMember { ObjectProp = "test string" };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<string>(result);
-            Assert.Equal("test string", result);
+            var typedObjectProp = Assert.IsType<string>(result.ObjectProp);
+            Assert.Equal("test string", typedObjectProp);
         }
 
         [Fact]
         public void Read_DeserializesIntValue()
         {
             // Arrange
-            var json = "42";
+            var initial = new ClassWithObjectMember { ObjectProp = 42 };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<int>(result);
-            Assert.Equal(42, result);
+            var typedObjectProp = Assert.IsType<int>(result.ObjectProp);
+            Assert.Equal(42, typedObjectProp);
         }
 
         [Fact]
         public void Read_DeserializesLongValue()
         {
             // Arrange
-            var json = "9223372036854775807";
+            var initial = new ClassWithObjectMember { ObjectProp = 9223372036854775807 };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<long>(result);
-            Assert.Equal(9223372036854775807L, result);
+            var typedObjectProp = Assert.IsType<long>(result.ObjectProp);
+            Assert.Equal(9223372036854775807L, typedObjectProp);
         }
 
         [Fact]
         public void Read_DeserializesDoubleValue()
         {
             // Arrange
-            var json = "123.456e10";
+            var initial = new ClassWithObjectMember { ObjectProp = 123.456 };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<double>(result);
+            var typedObjectProp = Assert.IsType<double>(result.ObjectProp);
+            Assert.Equal(123.456, typedObjectProp);
         }
 
         [Fact]
         public void Read_DeserializesTrueValue()
         {
             // Arrange
-            var json = "true";
+            var initial = new ClassWithObjectMember { ObjectProp = true };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            var typed = Assert.IsType<bool>(result);
-            Assert.True(typed);
+            var typedObjectProp = Assert.IsType<bool>(result.ObjectProp);
+            Assert.True(typedObjectProp);
         }
 
         [Fact]
         public void Read_DeserializesFalseValue()
         {
             // Arrange
-            var json = "false";
+            var initial = new ClassWithObjectMember { ObjectProp = false };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            var typed = Assert.IsType<bool>(result);
-            Assert.False(typed);
+            var typedObjectProp = Assert.IsType<bool>(result.ObjectProp);
+            Assert.False(typedObjectProp);
         }
 
         [Fact]
         public void Read_DeserializesNullValue()
         {
             // Arrange
-            var json = "null";
+            var initial = new ClassWithObjectMember { ObjectProp = null };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
-            Assert.Null(result);
+            Assert.NotNull(result);
+            var typed = Assert.IsType<ClassWithObjectMember>(result);
+            Assert.Null(typed.ObjectProp);
         }
         #endregion
 
@@ -156,14 +169,24 @@ namespace LogicBuilder.App.Utils.Tests.Json
         public void Read_DeserializesObjectWithTypeFullName()
         {
             // Arrange
-            var json = $"{{\"typefullname\":\"{typeof(TestClassWithObjectProperties).AssemblyQualifiedName}\",\"Id\":1,\"Name\":\"Test\",\"Data\":{{\"Value\":100}}}}";
+            var initial = new ClassWithObjectMember
+            {
+                ObjectProp = new
+                {
+                    TypeFullName = typeof(TestClassWithObjectProperties).AssemblyQualifiedName,
+                    Id = 1,
+                    Name = "Test",
+                    Data = new { Value = 100 }
+                }
+            };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            var typed = Assert.IsType<TestClassWithObjectProperties>(result);
+            var typed = Assert.IsType<TestClassWithObjectProperties>(result.ObjectProp);
             Assert.Equal(1, typed.Id);
             Assert.Equal("Test", typed.Name);
         }
@@ -172,27 +195,37 @@ namespace LogicBuilder.App.Utils.Tests.Json
         public void Read_DeserializesObjectWithTypeString()
         {
             // Arrange
-            var json = $"{{\"typestring\":\"{typeof(TestClassWithObjectProperties).AssemblyQualifiedName}\",\"Id\":2,\"Name\":\"Test2\",\"Data\":null}}";
+            var initial = new ClassWithObjectMember 
+            { 
+                ObjectProp = new 
+                { 
+                    TypeString = typeof(TestClassWithObjectProperties).AssemblyQualifiedName, 
+                    Id = 2,
+                    Name = "Test2"
+                } 
+            };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            var typed = Assert.IsType<TestClassWithObjectProperties>(result);
+            var typed = Assert.IsType<TestClassWithObjectProperties>(result.ObjectProp);
             Assert.Equal(2, typed.Id);
             Assert.Equal("Test2", typed.Name);
         }
 
         [Fact]
-        public void Read_ThrowsInvalidOperationException_WhenTypeNotFound()
+        public void Read_ThrowsJsonException_WhenTypeNotFound()
         {
             // Arrange
-            var json = "{\"typefullname\":\"NonExistent.Type, NonExistent.Assembly\",\"Id\":1}";
+            var initial = new ClassWithObjectMember { ObjectProp = new { TypeFullName = "NonExistent.Type, NonExistent.Assembly", Id = 1 } };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act & Assert
             var exception = Assert.Throws<JsonException>(() =>
-                JsonSerializer.Deserialize<object>(json, _options));
+                JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options));
             Assert.Equal($"Type \"NonExistent.Type, NonExistent.Assembly\" is not an allowed type for {typeof(object).FullName}.", exception.Message);
         }
         #endregion
@@ -202,40 +235,59 @@ namespace LogicBuilder.App.Utils.Tests.Json
         public void Read_DeserializesAnonymousObjectWithMixedTypes()
         {
             // Arrange
-            var json = "{\"StringProp\":\"value\",\"IntProp\":42,\"BoolProp\":true}";
+            var initial = new ClassWithObjectMember
+            {
+                ObjectProp = new
+                {
+                    StringProp = "value",
+                    IntProp = 42,
+                    BoolProp = true
+                }
+            };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            var resultType = result.GetType();
+            var resultType = result.ObjectProp!.GetType();
 
             var stringProp = resultType.GetProperty("StringProp");
             Assert.NotNull(stringProp);
-            Assert.Equal("value", stringProp.GetValue(result));
+            Assert.Equal("value", stringProp.GetValue(result.ObjectProp));
 
             var intProp = resultType.GetProperty("IntProp");
             Assert.NotNull(intProp);
-            Assert.Equal(42, intProp.GetValue(result)!);
+            Assert.Equal(42, intProp.GetValue(result.ObjectProp)!);
 
             var boolProp = resultType.GetProperty("BoolProp");
             Assert.NotNull(boolProp);
-            Assert.True((bool)boolProp.GetValue(result)!);
+            Assert.True((bool)boolProp.GetValue(result.ObjectProp)!);
         }
 
         [Fact]
         public void Read_DeserializesAnonymousObjectWithNumericTypes()
         {
             // Arrange
-            var json = "{\"ByteVal\":255,\"ShortVal\":32767,\"IntVal\":2147483647,\"LongVal\":9223372036854775807}";
+            var initial = new ClassWithObjectMember
+            {
+                ObjectProp = new
+                {
+                    ByteVal = 255,
+                    ShortVal = 32767,
+                    IntVal = 2147483647,
+                    LongVal = 9223372036854775807
+                }
+            };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            var resultType = result.GetType();
+            var resultType = result.ObjectProp!.GetType();
 
             var byteVal = resultType.GetProperty("ByteVal");
             Assert.NotNull(byteVal);
@@ -251,22 +303,30 @@ namespace LogicBuilder.App.Utils.Tests.Json
         public void Read_DeserializesAnonymousObjectWithNullProperty()
         {
             // Arrange
-            var json = "{\"Name\":\"Test\",\"NullValue\":null}";
+            var initial = new ClassWithObjectMember
+            {
+                ObjectProp = new
+                {
+                    Name = "Test",
+                    NullValue = (object?)null
+                }
+            };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            var resultType = result.GetType();
+            var resultType = result.ObjectProp!.GetType();
 
             var nameProp = resultType.GetProperty("Name");
             Assert.NotNull(nameProp);
-            Assert.Equal("Test", nameProp.GetValue(result));
+            Assert.Equal("Test", nameProp.GetValue(result.ObjectProp));
 
             var nullProp = resultType.GetProperty("NullValue");
             Assert.NotNull(nullProp);
-            Assert.Null(nullProp.GetValue(result));
+            Assert.Null(nullProp.GetValue(result.ObjectProp));
         }
 
         [Fact]
@@ -288,44 +348,55 @@ namespace LogicBuilder.App.Utils.Tests.Json
         public void Read_DeserializesObjectWithObjectProperties()
         {
             // Arrange
-            var json = "{\"Id\":1,\"Name\":\"Parent\",\"Child\":{\"Value\":\"ChildValue\"}}";
+            var initial = new ClassWithObjectMember
+            {
+                ObjectProp = new
+                {
+                    Id = 1,
+                    Name = "Parent",
+                    Child = new { Value = "ChildValue" }
+                }
+            };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            var resultType = result.GetType();
+            var resultType = result.ObjectProp!.GetType();
 
             var idProp = resultType.GetProperty("Id");
             Assert.NotNull(idProp);
-            Assert.Equal(1, idProp.GetValue(result));
+            Assert.Equal(1, idProp.GetValue(result.ObjectProp));
 
             var nameProp = resultType.GetProperty("Name");
             Assert.NotNull(nameProp);
-            Assert.Equal("Parent", nameProp.GetValue(result));
+            Assert.Equal("Parent", nameProp.GetValue(result.ObjectProp));
 
             var childProp = resultType.GetProperty("Child");
             Assert.NotNull(childProp);
-            Assert.NotNull(childProp.GetValue(result));
+            Assert.NotNull(childProp.GetValue(result.ObjectProp));
         }
 
         [Fact]
         public void Read_DeserializesNestedAnonymousObjects()
         {
             // Arrange
-            var json = "{\"Level1\":{\"Level2\":{\"Value\":\"deep\"}}}";
+            var initial = new ClassWithObjectMember { ObjectProp = new { Level1 = new { Level2 = new { Value = "deep" } } } };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            var result = JsonSerializer.Deserialize<object>(json, _options);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
 
             // Assert
             Assert.NotNull(result);
-            var resultType = result.GetType();
-
+            var resultType = result.ObjectProp!.GetType();
+            Assert.Contains("AnonymousType", resultType.Name);
             var level1Prop = resultType.GetProperty("Level1");
             Assert.NotNull(level1Prop);
-            Assert.NotNull(level1Prop.GetValue(result));
+            var level1Value = level1Prop.GetValue(result.ObjectProp);
+            Assert.NotNull(level1Value);
         }
         #endregion
 
@@ -463,35 +534,47 @@ namespace LogicBuilder.App.Utils.Tests.Json
         public void ObjectConverterDoesNotInstantiate_TypeOutsideAllowlist()
         {
             // Arrange
-            string json = "{\"TypeString\":\"" + typeof(ParameterOperatorParameters).AssemblyQualifiedName + "\"}";
+            var initial = new ClassWithObjectMember
+            {
+                ObjectProp = new { TypeString = typeof(ParameterOperatorParameters).AssemblyQualifiedName }
+            };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act & Assert
-            var exception = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<object>(json, _options));
+            var exception = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options));
             Assert.Contains($"is not an allowed type for {typeof(object).FullName}.", exception.Message);
         }
 
         [Fact]
-        public void ObjectConverterRejects_DescriptorSubtypeFromUnregisteredAssembly()
+        public void ObjectConverterRejects_TypeFromUnregisteredAssembly()
         {
             // Arrange
-            string json = "{\"TypeString\":\"" + typeof(ParameterOperatorParameters).AssemblyQualifiedName + "\"}";
+            var initial = new ClassWithObjectMember
+            {
+                ObjectProp = new Expressions.Utils.ExpressionDescriptors.ParameterDescriptor("p")
+            };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act & Assert
-            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<object>(json, _options));
-            Assert.Throws<JsonException>(() => JsonSerializer.Serialize<object>(new ParameterOperatorParameters("p"), _options));
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options));
+            Assert.Throws<JsonException>(() => JsonSerializer.Serialize<ClassWithObjectMember>(initial, _options));
         }
 
         [Fact]
         public void ObjectConverterAccepts_DescriptorSubtypeFromRegisteredAssembly()
         {
             // Arrange
-            string json = JsonSerializer.Serialize<object>(new ExternalModel { Name = "A" }, _options);
+            var initial = new ClassWithObjectMember
+            {
+                ObjectProp = new ExternalModel { Name = "A" }
+            };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act
-            object result = JsonSerializer.Deserialize<object>(json, _options)!;
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options)!;
 
             // Assert
-            Assert.Equal("A", Assert.IsType<ExternalModel>(result).Name);
+            Assert.Equal("A", Assert.IsType<ExternalModel>(result.ObjectProp).Name);
         }
 
         [Fact]
@@ -526,10 +609,14 @@ namespace LogicBuilder.App.Utils.Tests.Json
         {
             // Arrange
             string typeString = $"{typeof(ExternalModel).FullName}, {typeof(ExternalModel).Assembly.GetName().Name}, Version=0.0.0.1, Culture=neutral, PublicKeyToken=null";
-            string json = "{\"TypeString\":\"" + typeString + "\",\"Constant\":1}";
+            var initial = new ClassWithObjectMember
+            {
+                ObjectProp = new { TypeString = typeString }
+            };
+            var json = JsonSerializer.Serialize(initial);
 
             // Act & Assert
-            Assert.IsType<ExternalModel>(JsonSerializer.Deserialize<object>(json, _options));
+            Assert.IsType<ExternalModel>(JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options)!.ObjectProp);
         }
 
         [Fact]
@@ -560,6 +647,37 @@ namespace LogicBuilder.App.Utils.Tests.Json
             {
                 new TestObjectconverter((Assembly[])null!);
             });
+        }
+
+        [Fact]
+        public void ObjectConverterAccepts_ObjectSubtypeFromRegisteredAssembly()
+        {
+            // Arrange
+            string json = JsonSerializer.Serialize(new ClassWithObjectMember { StringProp = "A", ObjectProp = new ExternalModel { Name = "A" } }, _options);
+
+            // Act
+            object result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options)!;
+
+            // Assert
+            var classWithObjectMember = Assert.IsType<ClassWithObjectMember>(result);
+            Assert.Equal("A", classWithObjectMember.StringProp);
+            var extenalModel = Assert.IsType<ExternalModel>(classWithObjectMember.ObjectProp);
+            Assert.Equal("A", extenalModel.Name);
+        }
+
+        [Fact]
+        public void ObjectConverterWorks_WithGenericChildObjectromRegisteredAssembly()
+        {
+            var model = new ClassWithObjectMember
+            {
+                ObjectProp = new ScreenSettings<string>("dialog-settings")
+            };
+
+            var json = JsonSerializer.Serialize(model);
+            var result = JsonSerializer.Deserialize<ClassWithObjectMember>(json, _options);
+
+            Assert.NotNull(result);
+            Assert.IsType<ScreenSettings<string>>(result.ObjectProp);
         }
         #endregion
 
@@ -593,6 +711,12 @@ namespace LogicBuilder.App.Utils.Tests.Json
             public object? NullObjectProp { get; set; }
         }
 
+        public class ClassWithObjectMember
+        {
+            public string? StringProp { get; set; }
+            public object? ObjectProp { get; set; }
+        }
+
         internal class TestObjectconverter : Utils.Json.ObjectConverter
         {
             public TestObjectconverter()
@@ -608,6 +732,12 @@ namespace LogicBuilder.App.Utils.Tests.Json
                 : base(types)
             {
             }
+        }
+
+        public class ScreenSettings<TDialogSetting>(TDialogSetting settings)
+        {
+            public TDialogSetting Settings { get; set; } = settings;
+            public string TypeString => this.GetType().AssemblyQualifiedName!;
         }
         #endregion
     }
