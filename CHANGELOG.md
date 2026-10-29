@@ -1,3 +1,4 @@
+* 2026-10-29 - AB#180: Add package height
 * 2026-10-29 - AB#180: Prevent rules loader task continuation on blocked context.
 * 2026-10-06 - AB#241: Enforce known assemblies for object deserialization.
 * 2026-10-02 - AB#241: Remediate unsafe deserialization.
