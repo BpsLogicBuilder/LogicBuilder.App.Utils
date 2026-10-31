@@ -13,7 +13,7 @@ namespace LogicBuilder.App.Utils.Rules
     {
         public static async Task<RulesCache> LoadRules(RulesLoaderRequest rulesLoaderRequest)
         {
-            return await LoadRules(new RulesLoader(new RulesSerializer()), rulesLoaderRequest);
+            return await LoadRules(new RulesLoader(new RulesSerializer()), rulesLoaderRequest).ConfigureAwait(false);
         }
 
         static async Task<RulesCache> LoadRules(RulesLoader rulesLoader, RulesLoaderRequest rulesLoaderRequest)
@@ -47,7 +47,7 @@ namespace LogicBuilder.App.Utils.Rules
                         rulesLoaderRequest
                     )
                 )
-            );
+            ).ConfigureAwait(false);
 
             return cache;
 
